@@ -18,7 +18,7 @@ export default function Footer() {
 
         <p className="status">
           <span className="status-dot" aria-hidden="true" />
-          parked with purpose — est. 2025
+          parked with purpose — est. 2022
         </p>
       </div>
 

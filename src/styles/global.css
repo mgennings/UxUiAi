@@ -90,7 +90,8 @@ body {
   background: var(--black);
   color: var(--text);
   font-family: var(--font-mono);
-  overflow-x: hidden;
+  /* NOTE: NO overflow-x: hidden here — it kills position: sticky on descendants.
+     Horizontal overflow is controlled per-component instead. */
   -webkit-font-smoothing: antialiased;
 }
 
@@ -367,7 +368,7 @@ body:has(button:hover) .cursor-ring {
   font-size: 0.6rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--text-faint);
+  color: var(--text-dim);
 }
 
 .scroll-line {
@@ -503,8 +504,8 @@ body:has(button:hover) .cursor-ring {
 
 .scroll-section {
   position: relative;
-  padding: 8rem 0;
-  overflow: hidden;
+  padding: 0;
+  /* overflow must NOT be hidden — sticky panels need to escape */
 }
 
 .scroll-section-header {
@@ -522,6 +523,85 @@ body:has(button:hover) .cursor-ring {
 }
 
 .scroll-section-header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  line-height: 0.9;
+  color: var(--text);
+}
+
+/* ── Sticky Scale Panels — JS-driven (mirrors the Apple fiddle pattern) ──
+   .sp-wrap  = tall container (160dvh) that gives the scroll room
+   .sp-sticky = position: sticky, pins to top for the full wrap height
+   .sp-scale  = the content; JS sets transform: scale() based on scroll progress
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.sp-wrap {
+  height: 160dvh;
+  position: relative;
+}
+
+.sp-sticky {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow: hidden;  /* clip the scale-out edges cleanly */
+}
+
+.sp-scale {
+  max-width: 900px;
+  width: 100%;
+  will-change: transform;
+  transform-origin: center center;
+}
+
+/* Word reveal — CSS transition, class .is-active toggled by IntersectionObserver */
+.sp-wrap .word {
+  display: inline-block;
+  clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+  transition: clip-path 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--word-i, 0) * 120ms);
+}
+.sp-wrap.is-active .word {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* Sub-text fade + rise — triggered by same .is-active */
+.sp-wrap .sr-panel-sub {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.65s ease 0.45s, transform 0.65s ease 0.45s;
+}
+.sp-wrap.is-active .sr-panel-sub {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Morph panel flex layout */
+.sp-morph-layout {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  flex-wrap: wrap;
+}
+
+/* Section intro — static, in-flow */
+.scroll-intro {
+  padding: 8rem 2rem 6rem;
+  text-align: center;
+}
+.scroll-intro .label {
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--violet-light);
+  margin-bottom: 1rem;
+  display: block;
+}
+.scroll-intro h2 {
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 7vw, 6rem);
   line-height: 0.9;
@@ -561,7 +641,7 @@ body:has(button:hover) .cursor-ring {
 .sr-panel-number {
   font-size: 0.6rem;
   letter-spacing: 0.4em;
-  color: var(--text-faint);
+  color: rgba(160, 160, 210, 0.75);
   text-transform: uppercase;
   margin-bottom: 1rem;
 }
@@ -572,20 +652,14 @@ body:has(button:hover) .cursor-ring {
   line-height: 0.9;
   text-transform: uppercase;
   position: relative;
-  overflow: hidden;
+  /* No overflow: hidden — was clipping trailing spaces */
 }
 
-/* Clip-path text reveal on scroll — uses Houdini */
+/* Words default to hidden clip — revealed when parent .sp-wrap gets .is-active.
+   Animation/transition is handled by .sp-wrap .word in the sp- block above. */
 .sr-panel-text .word {
   display: inline-block;
-  clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
-  animation: wordReveal linear both;
-  animation-timeline: view();
-  animation-range: entry 10% entry 65%;
 }
-
-.sr-panel-text .word:nth-child(2) { animation-range: entry 20% entry 70%; }
-.sr-panel-text .word:nth-child(3) { animation-range: entry 25% entry 75%; }
 
 @keyframes wordReveal {
   from { clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%); }
@@ -863,7 +937,7 @@ body:has(button:hover) .cursor-ring {
   font-size: 0.65rem;
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: var(--text-faint);
+  color: rgba(160, 160, 210, 0.75);
   margin-top: 1rem;
   display: flex;
   align-items: center;
@@ -892,7 +966,7 @@ body:has(button:hover) .cursor-ring {
   align-items: center;
   gap: 1rem;
   font-size: 0.6rem;
-  color: var(--text-faint);
+  color: rgba(130, 130, 180, 0.6);
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
