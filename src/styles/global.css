@@ -4,31 +4,31 @@
 
 /* Houdini @property — enables animation of custom properties */
 @property --aurora-hue {
-  syntax: '<angle>';
+  syntax: "<angle>";
   initial-value: 270deg;
   inherits: false;
 }
 
 @property --sweep-pos {
-  syntax: '<percentage>';
+  syntax: "<percentage>";
   initial-value: -120%;
   inherits: false;
 }
 
 @property --glow-spread {
-  syntax: '<length>';
+  syntax: "<length>";
   initial-value: 20px;
   inherits: false;
 }
 
 @property --gradient-angle {
-  syntax: '<angle>';
+  syntax: "<angle>";
   initial-value: 0deg;
   inherits: false;
 }
 
 @property --neon-opacity {
-  syntax: '<number>';
+  syntax: "<number>";
   initial-value: 0;
   inherits: false;
 }
@@ -39,51 +39,59 @@
 
 :root {
   /* Colors */
-  --black:       #020208;
-  --deep:        #060614;
-  --surface:     #0d0d26;
-  --surface-2:   #141432;
+  --black: #020208;
+  --deep: #060614;
+  --surface: #0d0d26;
+  --surface-2: #141432;
 
-  --violet:       #7b2fff;
-  --violet-dim:   #4a1fa8;
+  --violet: #7b2fff;
+  --violet-dim: #4a1fa8;
   --violet-light: #c084fc;
-  --acid:         #39ff14;
-  --magenta:      #ff006e;
-  --coral:        #ff6b35;
-  --cyan:         #00f5ff;
+  --acid: #39ff14;
+  --magenta: #ff006e;
+  --coral: #ff6b35;
+  --cyan: #00f5ff;
 
-  --text:       #e8e8f8;
-  --text-dim:   #7070b0;
+  --text: #e8e8f8;
+  --text-dim: #7070b0;
   --text-faint: #2a2a5a;
 
   /* Neon glows */
-  --glow-v: 0 0 30px rgba(123,47,255,0.7), 0 0 80px rgba(123,47,255,0.25);
-  --glow-a: 0 0 30px rgba(57,255,20,0.7),  0 0 80px rgba(57,255,20,0.25);
-  --glow-m: 0 0 30px rgba(255,0,110,0.7),  0 0 80px rgba(255,0,110,0.25);
+  --glow-v: 0 0 30px rgba(123, 47, 255, 0.7), 0 0 80px rgba(123, 47, 255, 0.25);
+  --glow-a: 0 0 30px rgba(57, 255, 20, 0.7), 0 0 80px rgba(57, 255, 20, 0.25);
+  --glow-m: 0 0 30px rgba(255, 0, 110, 0.7), 0 0 80px rgba(255, 0, 110, 0.25);
 
   /* Typography */
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-mono:    'Space Mono', monospace;
+  --font-display: "Bebas Neue", sans-serif;
+  --font-mono: "Space Mono", monospace;
 
   /* Easing */
   --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ================================================
    RESET
    ================================================ */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 html {
-  cursor: none;
   overflow-x: hidden;
+}
+
+/* Hide default cursor only when a real mouse is present */
+@media (pointer: fine) {
+  html {
+    cursor: none;
+  }
 }
 
 body {
@@ -96,9 +104,78 @@ body {
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar        { width: 2px; }
-::-webkit-scrollbar-track  { background: var(--black); }
-::-webkit-scrollbar-thumb  { background: var(--violet); border-radius: 2px; }
+::-webkit-scrollbar {
+  width: 2px;
+}
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--violet);
+  border-radius: 2px;
+}
+
+/* ================================================
+   NAV CONTROLS — fixed bottom-left section navigator
+   ================================================ */
+
+.nav-controls {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  /* Entrance animation — slight delay so page loads first */
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease-expo) 2.8s forwards;
+}
+
+.nav-btn {
+  width: 44px;
+  height: 44px;
+  background: rgba(6, 6, 20, 0.85);
+  border: 1px solid rgba(123, 47, 255, 0.35);
+  border-radius: 10px;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  cursor: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s,
+    transform 0.25s var(--ease-spring),
+    color 0.25s,
+    opacity 0.25s;
+}
+
+.nav-btn:hover {
+  border-color: var(--violet);
+  box-shadow: var(--glow-v);
+  transform: scale(1.12);
+  color: var(--violet-light);
+}
+
+/* Muted state — first section (up button) or intentionally disabled */
+.nav-btn--muted {
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+/* Mobile — ensure touch targets and no collision with audio toggle */
+@media (max-width: 480px) {
+  .nav-controls {
+    bottom: 1.5rem;
+    left: 1rem;
+  }
+  /* audio toggle is bottom-right, nav-controls bottom-left — no collision */
+}
 
 /* ================================================
    CURSOR
@@ -121,16 +198,20 @@ body {
   background: #fff;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  transition: width 0.2s var(--ease-spring), height 0.2s var(--ease-spring);
+  transition:
+    width 0.2s var(--ease-spring),
+    height 0.2s var(--ease-spring);
 }
 
 .cursor-ring {
   width: 32px;
   height: 32px;
-  border: 1.5px solid rgba(255,255,255,0.8);
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  transition: width 0.3s var(--ease-spring), height 0.3s var(--ease-spring);
+  transition:
+    width 0.3s var(--ease-spring),
+    height 0.3s var(--ease-spring);
 }
 
 body:has(a:hover) .cursor-ring,
@@ -158,7 +239,9 @@ body:has(button:hover) .cursor-ring {
   cursor: none;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
   font-family: var(--font-mono);
   font-size: 0.65rem;
   letter-spacing: 0.15em;
@@ -198,15 +281,29 @@ body:has(button:hover) .cursor-ring {
   animation: waveBar 0.8s ease-in-out infinite alternate;
 }
 
-.playing .audio-waveform span:nth-child(1) { animation-delay: 0.0s; }
-.playing .audio-waveform span:nth-child(2) { animation-delay: 0.1s; }
-.playing .audio-waveform span:nth-child(3) { animation-delay: 0.2s; }
-.playing .audio-waveform span:nth-child(4) { animation-delay: 0.1s; }
-.playing .audio-waveform span:nth-child(5) { animation-delay: 0.0s; }
+.playing .audio-waveform span:nth-child(1) {
+  animation-delay: 0s;
+}
+.playing .audio-waveform span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.playing .audio-waveform span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.playing .audio-waveform span:nth-child(4) {
+  animation-delay: 0.1s;
+}
+.playing .audio-waveform span:nth-child(5) {
+  animation-delay: 0s;
+}
 
 @keyframes waveBar {
-  from { height: 4px; }
-  to   { height: 16px; }
+  from {
+    height: 4px;
+  }
+  to {
+    height: 16px;
+  }
 }
 
 /* ================================================
@@ -240,10 +337,10 @@ body:has(button:hover) .cursor-ring {
   background: conic-gradient(
     from var(--aurora-hue) at 50% 70%,
     transparent 0%,
-    rgba(123,47,255,0.08) 20%,
-    rgba(255,0,110,0.05) 40%,
+    rgba(123, 47, 255, 0.08) 20%,
+    rgba(255, 0, 110, 0.05) 40%,
     transparent 60%,
-    rgba(57,255,20,0.04) 80%,
+    rgba(57, 255, 20, 0.04) 80%,
     transparent 100%
   );
   animation: aurora-spin 12s linear infinite;
@@ -251,7 +348,9 @@ body:has(button:hover) .cursor-ring {
 }
 
 @keyframes aurora-spin {
-  to { --aurora-hue: 630deg; }
+  to {
+    --aurora-hue: 630deg;
+  }
 }
 
 .hero-vignette {
@@ -304,17 +403,22 @@ body:has(button:hover) .cursor-ring {
 .hero-title-line.line-1 {
   font-size: clamp(5rem, 18vw, 18rem);
   color: var(--text);
-  -webkit-text-stroke: 1px rgba(255,255,255,0.1);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
 }
 
 .hero-title-line.line-2 {
   font-size: clamp(5rem, 18vw, 18rem);
   /* Gradient fill via clip technique */
-  background: linear-gradient(135deg, var(--violet), var(--magenta), var(--acid));
+  background: linear-gradient(
+    135deg,
+    var(--violet),
+    var(--magenta),
+    var(--acid)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 40px rgba(123,47,255,0.5));
+  filter: drop-shadow(0 0 40px rgba(123, 47, 255, 0.5));
 }
 
 /* Houdini sweep shimmer on hero title */
@@ -325,7 +429,7 @@ body:has(button:hover) .cursor-ring {
   background: linear-gradient(
     90deg,
     transparent var(--sweep-pos),
-    rgba(255,255,255,0.6) calc(var(--sweep-pos) + 15%),
+    rgba(255, 255, 255, 0.6) calc(var(--sweep-pos) + 15%),
     transparent calc(var(--sweep-pos) + 30%)
   );
   -webkit-background-clip: text;
@@ -335,8 +439,12 @@ body:has(button:hover) .cursor-ring {
 }
 
 @keyframes sweep-shine {
-  from { --sweep-pos: -120%; }
-  to   { --sweep-pos: 220%; }
+  from {
+    --sweep-pos: -120%;
+  }
+  to {
+    --sweep-pos: 220%;
+  }
 }
 
 .hero-subtitle {
@@ -379,19 +487,37 @@ body:has(button:hover) .cursor-ring {
 }
 
 @keyframes scrollPulse {
-  0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
-  50%       { opacity: 1;   transform: scaleY(1); }
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scaleY(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Container queries for hero */
 @container (max-width: 500px) {
-  .hero-eyebrow { font-size: 0.55rem; letter-spacing: 0.25em; }
-  .hero-subtitle { font-size: 0.65rem; }
+  .hero-eyebrow {
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+  }
+  .hero-subtitle {
+    font-size: 0.65rem;
+  }
 }
 
 /* ================================================
@@ -411,20 +537,34 @@ body:has(button:hover) .cursor-ring {
 
 .marquee-section::before,
 .marquee-section::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--violet), var(--magenta), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--violet),
+    var(--magenta),
+    transparent
+  );
   animation: borderGlow 4s ease-in-out infinite alternate;
 }
-.marquee-section::before { top: 0; }
-.marquee-section::after  { bottom: 0; }
+.marquee-section::before {
+  top: 0;
+}
+.marquee-section::after {
+  bottom: 0;
+}
 
 @keyframes borderGlow {
-  from { opacity: 0.4; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .marquee-track {
@@ -435,7 +575,9 @@ body:has(button:hover) .cursor-ring {
   margin-bottom: 1.5rem;
 }
 
-.marquee-track:last-child { margin-bottom: 0; }
+.marquee-track:last-child {
+  margin-bottom: 0;
+}
 
 .marquee-inner {
   display: flex;
@@ -478,12 +620,20 @@ body:has(button:hover) .cursor-ring {
 }
 
 @keyframes marqueeLeft {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 @keyframes marqueeRight {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 /* Fade edges */
@@ -495,8 +645,14 @@ body:has(button:hover) .cursor-ring {
   z-index: 2;
   pointer-events: none;
 }
-.marquee-fade.left  { left: 0;  background: linear-gradient(to right, var(--black), transparent); }
-.marquee-fade.right { right: 0; background: linear-gradient(to left, var(--black), transparent); }
+.marquee-fade.left {
+  left: 0;
+  background: linear-gradient(to right, var(--black), transparent);
+}
+.marquee-fade.right {
+  right: 0;
+  background: linear-gradient(to left, var(--black), transparent);
+}
 
 /* ================================================
    SCROLL SECTION
@@ -548,7 +704,7 @@ body:has(button:hover) .cursor-ring {
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  overflow: hidden;  /* clip the scale-out edges cleanly */
+  overflow: hidden; /* clip the scale-out edges cleanly */
 }
 
 .sp-scale {
@@ -573,7 +729,9 @@ body:has(button:hover) .cursor-ring {
 .sp-wrap .sr-panel-sub {
   opacity: 0;
   transform: translateY(18px);
-  transition: opacity 0.65s ease 0.45s, transform 0.65s ease 0.45s;
+  transition:
+    opacity 0.65s ease 0.45s,
+    transform 0.65s ease 0.45s;
 }
 .sp-wrap.is-active .sr-panel-sub {
   opacity: 1;
@@ -618,7 +776,9 @@ body:has(button:hover) .cursor-ring {
   /* Scroll-driven: fades in + rises as it enters viewport */
   opacity: 0;
   transform: perspective(800px) translateY(60px) rotateX(8deg);
-  transition: opacity 0.1s, transform 0.1s; /* fallback */
+  transition:
+    opacity 0.1s,
+    transform 0.1s; /* fallback */
 
   animation: panelReveal linear both;
   animation-timeline: view();
@@ -662,13 +822,26 @@ body:has(button:hover) .cursor-ring {
 }
 
 @keyframes wordReveal {
-  from { clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%); }
-  to   { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
+  from {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
 }
 
-.sr-panel-text.accent-green  { color: var(--acid);    text-shadow: var(--glow-a); }
-.sr-panel-text.accent-violet { color: var(--violet-light); text-shadow: var(--glow-v); }
-.sr-panel-text.accent-magenta { color: var(--magenta); text-shadow: var(--glow-m); }
+.sr-panel-text.accent-green {
+  color: var(--acid);
+  text-shadow: var(--glow-a);
+}
+.sr-panel-text.accent-violet {
+  color: var(--violet-light);
+  text-shadow: var(--glow-v);
+}
+.sr-panel-text.accent-magenta {
+  color: var(--magenta);
+  text-shadow: var(--glow-m);
+}
 
 .sr-panel-sub {
   font-size: clamp(0.75rem, 1.5vw, 0.95rem);
@@ -685,8 +858,14 @@ body:has(button:hover) .cursor-ring {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateX(-20px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* Horizontal rule between panels */
@@ -696,7 +875,12 @@ body:has(button:hover) .cursor-ring {
   padding: 0 2rem;
   height: 1px;
 
-  background: linear-gradient(90deg, transparent, var(--text-faint), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--text-faint),
+    transparent
+  );
   opacity: 0;
   animation: fadeIn linear both;
   animation-timeline: view();
@@ -732,10 +916,18 @@ body:has(button:hover) .cursor-ring {
 }
 
 @keyframes morphShape {
-  0%   { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
-  33%  { clip-path: polygon(0% 0%, 100% 0%, 80% 100%, 20% 100%); }
-  66%  { clip-path: polygon(30% 0%, 70% 10%, 100% 80%, 50% 100%, 0% 80%); }
-  100% { clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%); }
+  0% {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+  33% {
+    clip-path: polygon(0% 0%, 100% 0%, 80% 100%, 20% 100%);
+  }
+  66% {
+    clip-path: polygon(30% 0%, 70% 10%, 100% 80%, 50% 100%, 0% 80%);
+  }
+  100% {
+    clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+  }
 }
 
 /* Gradient sweep on morph panel text using @property */
@@ -768,8 +960,12 @@ body:has(button:hover) .cursor-ring {
 }
 
 @keyframes glitchSweep {
-  0%   { --sweep-pos: -120%; }
-  100% { --sweep-pos: 220%; }
+  0% {
+    --sweep-pos: -120%;
+  }
+  100% {
+    --sweep-pos: 220%;
+  }
 }
 
 /* ================================================
@@ -875,39 +1071,76 @@ body:has(button:hover) .cursor-ring {
 
 /* Aurora gradient background on footer */
 .footer::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: radial-gradient(
     ellipse 60% 40% at 50% 100%,
-    rgba(123,47,255,0.08) 0%,
+    rgba(123, 47, 255, 0.08) 0%,
     transparent 70%
   );
   pointer-events: none;
 }
 
 .footer-domain {
-  font-family: var(--font-display);
+  /* Oswald instead of Bebas Neue — Bebas Neue's uppercase I has serifs that
+     look inconsistent with every other letterform. Oswald is same condensed
+     display energy with a clean, serifless I. */
+  font-family: "Oswald", var(--font-display);
   font-size: clamp(4rem, 16vw, 16rem);
+  font-weight: 700;
   line-height: 0.85;
   text-transform: uppercase;
   text-align: center;
   letter-spacing: -0.02em;
   position: relative;
 
-  /* Gradient outline text */
-  -webkit-text-stroke: 1px var(--text-faint);
-  color: transparent;
+  /* Multi-ring outline — outermost (widest) ring.
+     Black fill "cuts through" so only the stroke edge is visible.
+     ::before and ::after add progressively thinner rings on top. */
+  -webkit-text-stroke: 8px var(--violet-light);
+  color: var(--black);
 
   animation: footerReveal linear both;
   animation-timeline: view();
   animation-range: entry 0% entry 60%;
 }
 
+/* Middle ring — sits on top of outer, reveals a thinner concentric outline */
+.footer-domain::before,
+.footer-domain::after {
+  position: absolute;
+  inset: 0;
+  display: block;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  text-transform: inherit;
+  color: var(--black);
+  pointer-events: none;
+  animation: footerReveal linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 60%;
+}
+
+.footer-domain::before {
+  content: attr(aria-label);
+  -webkit-text-stroke: 4px var(--violet-light);
+}
+
+/* Innermost ring — thinnest stroke, sits on top of all layers */
+.footer-domain::after {
+  content: attr(aria-label);
+  -webkit-text-stroke: 1px var(--violet-light);
+}
+
 @keyframes footerReveal {
   from {
     opacity: 0;
-    -webkit-text-stroke-color: var(--text-faint);
+    -webkit-text-stroke-color: transparent;
     filter: blur(20px);
   }
   to {
@@ -955,8 +1188,15 @@ body:has(button:hover) .cursor-ring {
 }
 
 @keyframes statusPulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.4; transform: scale(0.8); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
 }
 
 .footer-bottom {

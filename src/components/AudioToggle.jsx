@@ -3,10 +3,10 @@
    Ben Böhmer — Cappadocia
    ================================================ */
 
-import { useRef, useState, useCallback } from 'react'
+import { useRef, useState, useCallback } from "react"
 
 export default function AudioToggle() {
-  const audioRef  = useRef(null)
+  const audioRef = useRef(null)
   const [playing, setPlaying] = useState(false)
 
   const toggle = useCallback(async () => {
@@ -29,19 +29,16 @@ export default function AudioToggle() {
   return (
     <>
       {/* Audio element — loop, no autoplay */}
-      <audio
-        ref={audioRef}
-        src="/audio/cappadocia.mp3"
-        loop
-        preload="none"
-      />
+      <audio ref={audioRef} src="/audio/cappadocia.mp3" loop preload="none" />
 
       {/* Floating toggle button */}
       <button
-        className={`audio-toggle${playing ? ' playing' : ''}`}
+        className={`audio-toggle${playing ? " playing" : ""}`}
         onClick={toggle}
-        aria-label={playing ? 'Pause audio' : 'Play audio — Ben Böhmer, Cappadocia'}
-        title={playing ? 'Pause' : 'Play — Ben Böhmer · Cappadocia'}
+        aria-label={
+          playing ? "Pause audio" : "Play audio — Ben Böhmer, Cappadocia"
+        }
+        title={playing ? "Pause" : "Play — Ben Böhmer · Cappadocia"}
       >
         {/* Animated waveform visualization */}
         <div className="audio-waveform" aria-hidden="true">
@@ -52,7 +49,7 @@ export default function AudioToggle() {
           <span />
         </div>
 
-        <span>{playing ? 'playing' : 'sound'}</span>
+        <span>{playing ? "playing" : "sound"}</span>
       </button>
     </>
   )

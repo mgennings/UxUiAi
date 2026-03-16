@@ -4,7 +4,7 @@
 
 export default function Footer() {
   return (
-    <footer className="footer" aria-label="Footer">
+    <footer className="footer" aria-label="Footer" data-nav-section>
       {/* Domain name as giant outline text */}
       <h2 className="footer-domain" aria-label="uxuiai.org">
         uxuiai.org

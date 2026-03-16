@@ -13,16 +13,19 @@
    Words reveal via IntersectionObserver → .is-active class → CSS transition.
    ================================================ */
 
-import { useEffect, useRef, Fragment } from 'react'
+import { useEffect, useRef, Fragment } from "react"
 
-const SCALE_MAX = 0.5  // scale(1.0) → scale(1.5)
+const SCALE_DESKTOP = 0.5 // scale(1.0) → scale(1.5)
+const SCALE_MOBILE = 0.15 // scale(1.0) → scale(1.15) — mobile: text is near full-width at base size
 
 /* Renders words as individual spans with a space text-node between them */
 function Words({ list }) {
   return list.map((w, i) => (
     <Fragment key={i}>
-      <span className="word" style={{ '--word-i': i }}>{w}</span>
-      {i < list.length - 1 && ' '}
+      <span className="word" style={{ "--word-i": i }}>
+        {w}
+      </span>
+      {i < list.length - 1 && " "}
     </Fragment>
   ))
 }
@@ -34,8 +37,8 @@ export default function ScrollSection() {
     const section = sectionRef.current
     if (!section) return
 
-    const wraps  = Array.from(section.querySelectorAll('.sp-wrap'))
-    const scales = Array.from(section.querySelectorAll('.sp-scale'))
+    const wraps = Array.from(section.querySelectorAll(".sp-wrap"))
+    const scales = Array.from(section.querySelectorAll(".sp-scale"))
 
     if (wraps.length === 0) return
 
@@ -43,7 +46,14 @@ export default function ScrollSection() {
        getBoundingClientRect().top gives viewport-relative position.
        Adding scrollY converts to document-relative (absolute page position).
        These positions are stable — wraps are normal-flow elements. */
-    const wrapTops = wraps.map(w => w.getBoundingClientRect().top + window.scrollY)
+    const wrapTops = wraps.map(
+      (w) => w.getBoundingClientRect().top + window.scrollY,
+    )
+
+    /* ── Determine scale ceiling once at mount — mobile gets a tighter range
+       so headline text (already near full viewport width at scale 1.0) doesn't
+       overflow. Check is done here, not inside the scroll handler. ── */
+    const scaleMax = window.innerWidth <= 768 ? SCALE_MOBILE : SCALE_DESKTOP
 
     /* ── Scroll → scale ── */
     const onScroll = () => {
@@ -51,49 +61,63 @@ export default function ScrollSection() {
       const ih = window.innerHeight
 
       scales.forEach((el, i) => {
-        const top      = wrapTops[i]
-        const range    = wraps[i].offsetHeight - ih   // 160dvh - 100dvh = 60dvh of "sticky time"
+        const top = wrapTops[i]
+        const range = wraps[i].offsetHeight - ih // 160dvh - 100dvh = 60dvh of "sticky time"
         const progress = Math.max(0, Math.min(1, (sy - top) / range))
-        el.style.transform = `scale(${1 + progress * SCALE_MAX})`
+        el.style.transform = `scale(${1 + progress * scaleMax})`
       })
     }
 
     /* ── IntersectionObserver → word + sub-text reveal ── */
     const io = new IntersectionObserver(
-      entries => entries.forEach(e => e.target.classList.toggle('is-active', e.isIntersecting)),
-      { threshold: 0.15 }
+      (entries) =>
+        entries.forEach((e) =>
+          e.target.classList.toggle("is-active", e.isIntersecting),
+        ),
+      { threshold: 0.15 },
     )
-    wraps.forEach(w => io.observe(w))
+    wraps.forEach((w) => io.observe(w))
 
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()  // run immediately so initial scale is correct
+    window.addEventListener("scroll", onScroll, { passive: true })
+    onScroll() // run immediately so initial scale is correct
 
     return () => {
-      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener("scroll", onScroll)
       io.disconnect()
     }
   }, [])
 
   return (
-    <section ref={sectionRef} className="scroll-section" aria-label="Philosophy">
-
+    <section
+      ref={sectionRef}
+      className="scroll-section"
+      aria-label="Philosophy"
+    >
       {/* ── Static intro — normal in-flow, not sticky ── */}
       <header className="scroll-intro">
         <span className="label">01 — intelligence</span>
-        <h2>When did the<br />tool become<br />the author?</h2>
+        <h2>
+          When did the
+          <br />
+          tool become
+          <br />
+          the author?
+        </h2>
       </header>
 
       {/* ── Panel 1 ── */}
-      <div className="sp-wrap">
+      <div className="sp-wrap" data-nav-section>
         <div className="sp-sticky">
           <article className="sp-scale">
             <p className="sr-panel-number">001 / 005</p>
             <p className="sr-panel-text">
-              <Words list={['Interfaces', 'used', 'to', 'obey.']} />
+              <Words list={["Interfaces", "used", "to", "obey."]} />
             </p>
             <p className="sr-panel-sub">
-              You clicked a button. A thing happened.<br />
-              The relationship was transactional. Clean. Predictable.<br />
+              You clicked a button. A thing happened.
+              <br />
+              The relationship was transactional. Clean. Predictable.
+              <br />
               <em>You were in control.</em>
             </p>
           </article>
@@ -101,16 +125,18 @@ export default function ScrollSection() {
       </div>
 
       {/* ── Panel 2 ── */}
-      <div className="sp-wrap">
+      <div className="sp-wrap" data-nav-section>
         <div className="sp-sticky">
           <article className="sp-scale">
             <p className="sr-panel-number">002 / 005</p>
             <p className="sr-panel-text accent-violet">
-              <Words list={['Now', 'they', 'generate', 'intentions.']} />
+              <Words list={["Now", "they", "generate", "intentions."]} />
             </p>
             <p className="sr-panel-sub">
-              The interface completes your sentence before you finish it.<br />
-              It knows you from aggregate ghosts of everyone who came before.<br />
+              The interface completes your sentence before you finish it.
+              <br />
+              It knows you from aggregate ghosts of everyone who came before.
+              <br />
               <em>The model is a mirror made of other people's clicks.</em>
             </p>
           </article>
@@ -118,7 +144,7 @@ export default function ScrollSection() {
       </div>
 
       {/* ── Panel 3 — morphing diamond ── */}
-      <div className="sp-wrap">
+      <div className="sp-wrap" data-nav-section>
         <div className="sp-sticky">
           <article className="sp-scale">
             <p className="sr-panel-number">003 / 005</p>
@@ -133,8 +159,11 @@ export default function ScrollSection() {
                   Your Figma frames are training data.
                 </p>
                 <p className="sr-panel-sub">
-                  The next designer won't open Figma.<br />
-                  They'll <em>describe</em> intent to something that never sleeps,<br />
+                  The next designer won't open Figma.
+                  <br />
+                  They'll <em>describe</em> intent to something that never
+                  sleeps,
+                  <br />
                   never blinks, and has seen every dribbble shot since 2012.
                 </p>
               </div>
@@ -144,16 +173,18 @@ export default function ScrollSection() {
       </div>
 
       {/* ── Panel 4 ── */}
-      <div className="sp-wrap">
+      <div className="sp-wrap" data-nav-section>
         <div className="sp-sticky">
           <article className="sp-scale">
             <p className="sr-panel-number">004 / 005</p>
             <p className="sr-panel-text accent-green">
-              <Words list={['Empathy', 'at', 'scale.']} />
+              <Words list={["Empathy", "at", "scale."]} />
             </p>
             <p className="sr-panel-sub">
-              UX was always about understanding human need.<br />
-              AI has infinite patience and zero ego.<br />
+              UX was always about understanding human need.
+              <br />
+              AI has infinite patience and zero ego.
+              <br />
               <em>It will wait until you figure out what you actually want.</em>
             </p>
           </article>
@@ -161,22 +192,23 @@ export default function ScrollSection() {
       </div>
 
       {/* ── Panel 5 ── */}
-      <div className="sp-wrap">
+      <div className="sp-wrap" data-nav-section>
         <div className="sp-sticky">
           <article className="sp-scale">
             <p className="sr-panel-number">005 / 005</p>
             <p className="sr-panel-text accent-magenta">
-              <Words list={['This', 'is', 'not', 'a', 'product.']} />
+              <Words list={["This", "is", "not", "a", "product."]} />
             </p>
             <p className="sr-panel-sub">
-              It is a proposition.<br />
-              What if the interface <em>is</em> the intelligence?<br />
+              It is a proposition.
+              <br />
+              What if the interface <em>is</em> the intelligence?
+              <br />
               What if design and AI aren't intersecting — they're converging?
             </p>
           </article>
         </div>
       </div>
-
     </section>
   )
 }

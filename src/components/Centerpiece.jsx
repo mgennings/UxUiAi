@@ -3,7 +3,7 @@
    Mouse-reactive feTurbulence / feDisplacementMap distortion
    ================================================ */
 
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useCallback } from "react"
 
 /* ── Particle System Config ── */
 const PARTICLE_COUNT = 90
@@ -12,37 +12,36 @@ const SPEED = 0.35
 
 function createParticle(w, h) {
   return {
-    x:   Math.random() * w,
-    y:   Math.random() * h,
-    vx:  (Math.random() - 0.5) * SPEED,
-    vy:  (Math.random() - 0.5) * SPEED,
-    r:   Math.random() * 2.5 + 1,
-    hue: Math.random() * 80 + 250,  // violet–magenta range
+    x: Math.random() * w,
+    y: Math.random() * h,
+    vx: (Math.random() - 0.5) * SPEED,
+    vy: (Math.random() - 0.5) * SPEED,
+    r: Math.random() * 2.5 + 1,
+    hue: Math.random() * 80 + 250, // violet–magenta range
   }
 }
 
 export default function Centerpiece() {
-  const canvasRef     = useRef(null)
+  const canvasRef = useRef(null)
   const turbulenceRef = useRef(null)
-  const mouseRef      = useRef({ x: 0.5, y: 0.5 })  // normalized 0–1
-  const particlesRef  = useRef([])
+  const mouseRef = useRef({ x: 0.5, y: 0.5 }) // normalized 0–1
+  const particlesRef = useRef([])
 
   /* ── Canvas particle animation ── */
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext("2d")
     let raf
 
     const resize = () => {
-      canvas.width  = canvas.offsetWidth  * devicePixelRatio
+      canvas.width = canvas.offsetWidth * devicePixelRatio
       canvas.height = canvas.offsetHeight * devicePixelRatio
       ctx.scale(devicePixelRatio, devicePixelRatio)
       // Re-scatter particles on resize
-      particlesRef.current = Array.from(
-        { length: PARTICLE_COUNT },
-        () => createParticle(canvas.offsetWidth, canvas.offsetHeight)
+      particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () =>
+        createParticle(canvas.offsetWidth, canvas.offsetHeight),
       )
     }
 
@@ -76,18 +75,18 @@ export default function Centerpiece() {
       // Draw connections
       for (let i = 0; i < ps.length; i++) {
         for (let j = i + 1; j < ps.length; j++) {
-          const dx   = ps[i].x - ps[j].x
-          const dy   = ps[i].y - ps[j].y
+          const dx = ps[i].x - ps[j].x
+          const dy = ps[i].y - ps[j].y
           const dist = Math.sqrt(dx * dx + dy * dy)
 
           if (dist < CONNECTION_DIST) {
             const alpha = (1 - dist / CONNECTION_DIST) * 0.6
-            const hue   = (ps[i].hue + ps[j].hue) / 2
+            const hue = (ps[i].hue + ps[j].hue) / 2
             ctx.beginPath()
             ctx.moveTo(ps[i].x, ps[i].y)
             ctx.lineTo(ps[j].x, ps[j].y)
             ctx.strokeStyle = `hsla(${hue}, 100%, 70%, ${alpha})`
-            ctx.lineWidth   = (1 - dist / CONNECTION_DIST) * 1.5
+            ctx.lineWidth = (1 - dist / CONNECTION_DIST) * 1.5
             ctx.stroke()
           }
         }
@@ -107,24 +106,27 @@ export default function Centerpiece() {
   const onMouseMove = useCallback((e) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const nx = (e.clientX - rect.left) / rect.width
-    const ny = (e.clientY - rect.top)  / rect.height
+    const ny = (e.clientY - rect.top) / rect.height
 
     mouseRef.current = { x: nx, y: ny }
 
     if (!turbulenceRef.current) return
 
     // Distance from center drives frequency (more at edges = more distortion)
-    const dx   = nx - 0.5
-    const dy   = ny - 0.5
+    const dx = nx - 0.5
+    const dy = ny - 0.5
     const dist = Math.sqrt(dx * dx + dy * dy) * 2 // 0 (center) → ~1 (corners)
 
     const baseFreq = 0.015 + dist * 0.04
-    turbulenceRef.current.setAttribute('baseFrequency', `${baseFreq} ${baseFreq}`)
+    turbulenceRef.current.setAttribute(
+      "baseFrequency",
+      `${baseFreq} ${baseFreq}`,
+    )
   }, [])
 
   const onMouseLeave = useCallback(() => {
     if (!turbulenceRef.current) return
-    turbulenceRef.current.setAttribute('baseFrequency', '0.015 0.015')
+    turbulenceRef.current.setAttribute("baseFrequency", "0.015 0.015")
   }, [])
 
   return (
@@ -133,6 +135,7 @@ export default function Centerpiece() {
       aria-label="Psychedelic centerpiece"
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
+      data-nav-section
     >
       <p className="centerpiece-label" aria-hidden="true">
         — the intersection of intention and emergence —
@@ -155,7 +158,13 @@ export default function Centerpiece() {
         >
           <defs>
             {/* Psychedelic distortion filter */}
-            <filter id="psychedelic-filter" x="-20%" y="-20%" width="140%" height="140%">
+            <filter
+              id="psychedelic-filter"
+              x="-20%"
+              y="-20%"
+              width="140%"
+              height="140%"
+            >
               <feTurbulence
                 ref={turbulenceRef}
                 type="fractalNoise"
@@ -193,11 +202,11 @@ export default function Centerpiece() {
 
             {/* Radial gradient fills */}
             <radialGradient id="ring-grad-1" cx="50%" cy="50%" r="50%">
-              <stop offset="0%"   stopColor="#7b2fff" stopOpacity="0" />
+              <stop offset="0%" stopColor="#7b2fff" stopOpacity="0" />
               <stop offset="100%" stopColor="#7b2fff" stopOpacity="0.6" />
             </radialGradient>
             <radialGradient id="ring-grad-2" cx="50%" cy="50%" r="50%">
-              <stop offset="0%"   stopColor="#ff006e" stopOpacity="0" />
+              <stop offset="0%" stopColor="#ff006e" stopOpacity="0" />
               <stop offset="100%" stopColor="#ff006e" stopOpacity="0.4" />
             </radialGradient>
           </defs>
@@ -206,7 +215,9 @@ export default function Centerpiece() {
           <g filter="url(#psychedelic-filter)" clipPath="url(#circle-clip)">
             {/* Outer ring */}
             <circle
-              cx="200" cy="200" r="180"
+              cx="200"
+              cy="200"
+              r="180"
               fill="none"
               stroke="url(#ring-grad-1)"
               strokeWidth="1.5"
@@ -224,7 +235,9 @@ export default function Centerpiece() {
 
             {/* Mid ring */}
             <circle
-              cx="200" cy="200" r="140"
+              cx="200"
+              cy="200"
+              r="140"
               fill="none"
               stroke="url(#ring-grad-2)"
               strokeWidth="1"
@@ -278,21 +291,40 @@ export default function Centerpiece() {
             </polygon>
 
             {/* Pulsing center circle */}
-            <circle cx="200" cy="200" r="30" fill="rgba(123,47,255,0.15)" stroke="#7b2fff" strokeWidth="1">
-              <animate attributeName="r" values="25;38;25" dur="3s" repeatCount="indefinite" />
-              <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" />
+            <circle
+              cx="200"
+              cy="200"
+              r="30"
+              fill="rgba(123,47,255,0.15)"
+              stroke="#7b2fff"
+              strokeWidth="1"
+            >
+              <animate
+                attributeName="r"
+                values="25;38;25"
+                dur="3s"
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="opacity"
+                values="0.6;1;0.6"
+                dur="3s"
+                repeatCount="indefinite"
+              />
             </circle>
 
             {/* Spoke lines */}
             {[0, 60, 120, 180, 240, 300].map((angle, i) => {
               const rad = (angle * Math.PI) / 180
-              const x2  = 200 + Math.cos(rad) * 170
-              const y2  = 200 + Math.sin(rad) * 170
+              const x2 = 200 + Math.cos(rad) * 170
+              const y2 = 200 + Math.sin(rad) * 170
               return (
                 <line
                   key={i}
-                  x1="200" y1="200"
-                  x2={x2} y2={y2}
+                  x1="200"
+                  y1="200"
+                  x2={x2}
+                  y2={y2}
                   stroke="rgba(192,132,252,0.2)"
                   strokeWidth="0.5"
                 />
@@ -302,7 +334,8 @@ export default function Centerpiece() {
 
           {/* Center label — not filtered */}
           <text
-            x="200" y="207"
+            x="200"
+            y="207"
             textAnchor="middle"
             fontFamily="'Bebas Neue', sans-serif"
             fontSize="16"
@@ -325,7 +358,8 @@ export default function Centerpiece() {
             letterSpacing="3"
           >
             <textPath href="#circle-path">
-              uxuiai.org · the intersection of intention and emergence · uxuiai.org · the intersection of intention and emergence ·
+              uxuiai.org · the intersection of intention and emergence ·
+              uxuiai.org · the intersection of intention and emergence ·
             </textPath>
             <animateTransform
               attributeName="transform"

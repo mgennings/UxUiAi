@@ -2,7 +2,7 @@
    HERO — WebGL plasma background + typographic statement
    ================================================ */
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from "react"
 
 /* ── WebGL Shaders ── */
 
@@ -58,7 +58,8 @@ const FRAG = `
 `
 
 function initGL(canvas) {
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+  const gl =
+    canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
   if (!gl) return null
 
   const compile = (type, src) => {
@@ -75,19 +76,19 @@ function initGL(canvas) {
   gl.useProgram(prog)
 
   // Full-screen triangle pair
-  const verts = new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1])
+  const verts = new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1])
   const buf = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, buf)
   gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW)
 
-  const posLoc = gl.getAttribLocation(prog, 'a_pos')
+  const posLoc = gl.getAttribLocation(prog, "a_pos")
   gl.enableVertexAttribArray(posLoc)
   gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0)
 
   return {
     gl,
-    uTime: gl.getUniformLocation(prog, 'u_t'),
-    uRes:  gl.getUniformLocation(prog, 'u_res'),
+    uTime: gl.getUniformLocation(prog, "u_t"),
+    uRes: gl.getUniformLocation(prog, "u_res"),
   }
 }
 
@@ -102,10 +103,11 @@ export default function Hero() {
     if (!ctx) return
 
     const { gl, uTime, uRes } = ctx
-    let raf, start = performance.now()
+    let raf,
+      start = performance.now()
 
     const resize = () => {
-      canvas.width  = canvas.offsetWidth  * devicePixelRatio
+      canvas.width = canvas.offsetWidth * devicePixelRatio
       canvas.height = canvas.offsetHeight * devicePixelRatio
       gl.viewport(0, 0, canvas.width, canvas.height)
     }
@@ -131,7 +133,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section className="hero" aria-label="Hero">
+    <section className="hero" aria-label="Hero" data-nav-section>
       {/* WebGL generative background */}
       <canvas ref={canvasRef} className="hero-canvas" aria-hidden="true" />
 
@@ -147,10 +149,7 @@ export default function Hero() {
 
         <h1 className="hero-title" aria-label="The Interface Is Dreaming">
           <span className="hero-title-line line-1">The Interface</span>
-          <span
-            className="hero-title-line line-2"
-            data-text="Is Dreaming"
-          >
+          <span className="hero-title-line line-2" data-text="Is Dreaming">
             Is Dreaming
           </span>
         </h1>
