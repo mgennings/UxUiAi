@@ -1,57 +1,66 @@
 # uxuiai.org
 
-A parked domain that refused to stay quiet. This is a pure CSS/JS art piece exploring the intersection of UX/UI design and AI/LLM tools — not a product, not a landing page, not a "coming soon." It's a fever dream built with WebGL shaders, CSS scroll-driven animations, Houdini `@property` custom properties, SVG psychedelic filters, and a particle network that reacts to your mouse. Ben Böhmer plays in the background if you ask nicely. The kind of site another developer finds in their bookmarks two years from now and immediately sends to a friend.
+a parked domain that refused to stay parked. it's alive at **[www.uxuiai.org](https://www.uxuiai.org)**.
 
-## Tech Stack
+this is not a product. this is not a landing page. this is not a "coming soon." this is a WebGL fever dream about what happens when UX/UI and AI converge into something that no longer needs you. there are scroll animations that scale text until it feels threatening. there is a particle network in the centerpiece that connects dots in a way that feels like it means something. there is a ben böhmer track playing if you click the button. there is a custom cursor that lags behind your mouse like it has places to be.
 
-- **React 18 + Vite 5** — component structure, fast dev server, static build
-- **WebGL (raw, no library)** — fractal plasma shader in the hero using IQ's cosine palette technique
-- **CSS Houdini `@property`** — animatable custom properties for aurora gradients, shimmer sweeps, glow sizes
-- **CSS scroll-driven animations** — `animation-timeline: view()` for clip-path morphs, 3D panel reveals, fade-ins tied to scroll position (no JS required)
-- **SVG filters** — `feTurbulence` + `feDisplacementMap` psychedelic distortion in the centerpiece, mouse-reactive frequency
-- **Canvas 2D** — particle network with spring-connected nodes in the centerpiece
-- **CSS clip-path morphing** — scroll-driven polygon morphs in the scroll section
-- **CSS 3D transforms** — perspective panel reveals as sections enter viewport
-- **CSS masking + `mix-blend-mode`** — layered text effects, cursor inversion
-- **`100dvh`** throughout for iOS Safari compatibility
-- **Custom animated cursor** — spring-lagged ring with `mix-blend-mode: difference`
-- **CSS container queries** — adaptive layouts on hero and centerpiece sections
-- **Fonts** — Bebas Neue (display) + Space Mono (editorial mono), Google Fonts CDN
+nobody asked for this. here it is anyway.
 
-## Run Locally
+## what's in here
+
+- **React 18 + Vite 5** — because we're not animals
+- **raw WebGL** — fractal plasma shader hero using IQ's cosine palette. no three.js. just pain and math
+- **CSS Houdini `@property`** — animated custom properties for aurora gradients and shimmer sweeps. browsers are finally cool enough for this
+- **CSS scroll-driven animations** — `animation-timeline: view()` doing heavy lifting so JS doesn't have to
+- **Apple-style sticky scroll panels** — 160dvh tall containers, position:sticky children, JS maps scroll progress to scale(). the text grows at you
+- **SVG `feTurbulence` + `feDisplacementMap`** — psychedelic distortion in the centerpiece. moves with your mouse
+- **Canvas 2D particle network** — 90 spring-connected nodes doing their thing
+- **custom cursor** — spring-lagged ring, `mix-blend-mode: difference`, only renders on real mice (`pointer: fine`). touch devices get nothing and that's correct
+- **CSS multi-ring text outline** — footer domain uses 3 stacked pseudo-element layers (8px / 4px / 1px strokes) with black fill cutthrough for that concentric ring thing
+- **Prettier + Husky** — pre-commit hook auto-formats everything. this repo has standards
+
+## run it
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173).
+done. [http://localhost:5173](http://localhost:5173).
 
-## Build
+### preview on your phone (same wifi)
 
 ```bash
-npm run build
-npm run preview  # preview the production build locally
+npm run dev -- --host
 ```
 
-The `dist/` folder is the complete deployable — just host it statically.
+vite will print something like `Network: http://192.168.1.x:5173`. open that on your phone. same network, instant mobile preview. great for checking the mobile scroll behavior, the touch cursor guard, or whether you've accidentally made the text enormous on a small screen again.
 
-## Deploy
+## build
 
-**Netlify (drag and drop):** Build the project, then drag the `dist/` folder to [app.netlify.com/drop](https://app.netlify.com/drop).
+```bash
+npm run build      # outputs to dist/
+npm run preview    # serve the production build locally before shipping
+```
 
-**Netlify CLI:**
+## format
+
+```bash
+npm run format     # prettier --write . on everything
+```
+
+or just commit and lint-staged handles it automatically via the husky pre-commit hook.
+
+## deploy
+
+this lives on **AWS Amplify** at [www.uxuiai.org](https://www.uxuiai.org). amplify watches the main branch and deploys on push. no build config needed beyond what's already in `package.json` — vite outputs to `dist/` and amplify finds it.
+
+if you wanted to deploy this somewhere else for some reason:
+
 ```bash
 npm run build
+# drag dist/ to netlify drop, or:
 npx netlify deploy --prod --dir=dist
 ```
 
-**Vercel:**
-```bash
-npm run build
-npx vercel --prod
-```
-
-**GitHub Pages:** Push to a repo, set Pages source to the `dist/` branch, or use [github.com/peaceiris/actions-gh-pages](https://github.com/peaceiris/actions-gh-pages).
-
-No server required. No environment variables. No database. Just vibes.
+no server. no env vars. no database. just vibes and shaders and a domain name that sounds like a robot trying to describe its own face.
