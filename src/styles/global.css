@@ -247,6 +247,10 @@ body:has(button:hover) .cursor-ring {
   letter-spacing: 0.15em;
   color: var(--text-dim);
   text-transform: uppercase;
+
+  /* Entrance — appears last in the load sequence */
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease-expo) 1.5s forwards;
 }
 
 .audio-toggle:hover {
@@ -327,6 +331,22 @@ body:has(button:hover) .cursor-ring {
   width: 100%;
   height: 100%;
   z-index: 0;
+
+  /* Canvas blooms in: scale 0.92 → 1.0 with fade, delayed after text */
+  opacity: 0;
+  transform: scale(0.92);
+  animation: canvasBloom 1.2s var(--ease-expo) 0.6s both;
+}
+
+@keyframes canvasBloom {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Aurora gradient overlay using Houdini @property */
@@ -804,6 +824,18 @@ body:has(button:hover) .cursor-ring {
   color: rgba(160, 160, 210, 0.75);
   text-transform: uppercase;
   margin-bottom: 1rem;
+
+  /* Airport departures board flip — slides up from below when section activates */
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.sp-wrap.is-active .sr-panel-number {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .sr-panel-text {
@@ -1209,4 +1241,257 @@ body:has(button:hover) .cursor-ring {
   color: rgba(130, 130, 180, 0.6);
   letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+
+/* ================================================
+   GRAIN OVERLAY — full-page film texture
+   SVG feTurbulence noise rendered as a background tile,
+   animated with step jumps to simulate live grain.
+   opacity: 0.055, mix-blend-mode: overlay keeps it
+   tactile without muddying the neon palette.
+   ================================================ */
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  animation: grainShift 0.45s steps(1) infinite;
+}
+
+@keyframes grainShift {
+  0% {
+    background-position: 0 0;
+  }
+  11% {
+    background-position: -5% -10%;
+  }
+  22% {
+    background-position: -15% 5%;
+  }
+  33% {
+    background-position: 7% -25%;
+  }
+  44% {
+    background-position: -5% 25%;
+  }
+  55% {
+    background-position: -15% 10%;
+  }
+  66% {
+    background-position: 15% 0;
+  }
+  77% {
+    background-position: 0 15%;
+  }
+  88% {
+    background-position: 3% 35%;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+/* ================================================
+   SITE INTRO OVERLAY — load entrance sequence
+   Black screen dissolves away, revealing the site
+   beneath already-running animations.
+   ================================================ */
+
+.site-intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--black);
+  pointer-events: none;
+  animation: introFade 0.9s var(--ease-expo) 0.25s both;
+}
+
+@keyframes introFade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ================================================
+   GLITCH EFFECT — headline hover easter egg
+   @media (pointer: fine) — desktop only.
+   ::before and ::after render the same text (via data-glitch
+   attr) as two colored ghost layers, each clipped to a
+   different horizontal band. On hover they fire a brief
+   asymmetric X-axis jitter that feels like signal corruption.
+   ================================================ */
+
+@media (pointer: fine) {
+  .sr-panel-text[data-glitch] {
+    position: relative;
+  }
+
+  .sr-panel-text[data-glitch]::before,
+  .sr-panel-text[data-glitch]::after {
+    content: attr(data-glitch);
+    position: absolute;
+    inset: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    text-transform: inherit;
+    white-space: inherit;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  /* Upper slice — violet */
+  .sr-panel-text[data-glitch]::before {
+    color: var(--violet);
+    clip-path: inset(15% 0 55% 0);
+  }
+
+  /* Lower slice — acid green */
+  .sr-panel-text[data-glitch]::after {
+    color: var(--acid);
+    clip-path: inset(60% 0 8% 0);
+  }
+
+  .sr-panel-text[data-glitch]:hover::before {
+    animation: glitchSliceA 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .sr-panel-text[data-glitch]:hover::after {
+    animation: glitchSliceB 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.04s;
+  }
+
+  @keyframes glitchSliceA {
+    0% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    12% {
+      opacity: 0.9;
+      transform: translateX(4px);
+    }
+    28% {
+      opacity: 0.7;
+      transform: translateX(-3px);
+    }
+    48% {
+      opacity: 0.85;
+      transform: translateX(2px);
+    }
+    68% {
+      opacity: 0.5;
+      transform: translateX(-1px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes glitchSliceB {
+    0% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    15% {
+      opacity: 0.8;
+      transform: translateX(-4px);
+    }
+    32% {
+      opacity: 0.65;
+      transform: translateX(3px);
+    }
+    52% {
+      opacity: 0.9;
+      transform: translateX(-2px);
+    }
+    72% {
+      opacity: 0.4;
+      transform: translateX(1px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+  }
+}
+
+/* ================================================
+   PREFERS-REDUCED-MOTION
+   Disable or heavily reduce motion-intensive effects.
+   Keeps color, opacity, and text transitions but kills
+   scale zooms, glitch, grain animation, and parallax.
+   ================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* ── Scroll scale zoom — disable, show at resting scale ── */
+  .sp-scale {
+    transform: none !important;
+    will-change: auto;
+  }
+
+  /* ── Glitch — remove ── */
+  .sr-panel-text[data-glitch]::before,
+  .sr-panel-text[data-glitch]::after {
+    display: none;
+  }
+
+  /* ── Grain — static, no position shift ── */
+  .grain-overlay {
+    animation: none;
+  }
+
+  /* ── Intro overlay — instant ── */
+  .site-intro-overlay {
+    animation-duration: 0.1s;
+    animation-delay: 0s;
+  }
+
+  /* ── Hero canvas — skip scale bloom, just fade ── */
+  .hero-canvas {
+    animation-name: fadeIn;
+    animation-duration: 0.4s;
+    animation-delay: 0s;
+    transform: none;
+  }
+
+  /* ── Hero content + UI entrances — collapse delays ── */
+  .hero-eyebrow,
+  .hero-title,
+  .hero-subtitle,
+  .hero-scroll-hint,
+  .nav-controls,
+  .audio-toggle {
+    animation-duration: 0.3s;
+    animation-delay: 0s;
+  }
+
+  /* ── Word and sub-text reveals — instant ── */
+  .sp-wrap .word {
+    transition-duration: 0.1s;
+  }
+  .sp-wrap .sr-panel-sub,
+  .sp-wrap .sr-panel-number {
+    transition-duration: 0.1s;
+  }
+
+  /* ── Aurora — slow spin to near-still ── */
+  .hero-aurora {
+    animation-duration: 120s;
+  }
+
+  /* ── Footer reveal — instant ── */
+  .footer-domain,
+  .footer-domain::before,
+  .footer-domain::after {
+    animation-duration: 0.1s;
+    animation-delay: 0s;
+  }
 }

@@ -42,30 +42,38 @@ export default function ScrollSection() {
 
     if (wraps.length === 0) return
 
-    /* ── Cache each wrap's document-top at mount time ──
-       getBoundingClientRect().top gives viewport-relative position.
-       Adding scrollY converts to document-relative (absolute page position).
-       These positions are stable — wraps are normal-flow elements. */
-    const wrapTops = wraps.map(
-      (w) => w.getBoundingClientRect().top + window.scrollY,
-    )
-
     /* ── Determine scale ceiling once at mount — mobile gets a tighter range
        so headline text (already near full viewport width at scale 1.0) doesn't
        overflow. Check is done here, not inside the scroll handler. ── */
     const scaleMax = window.innerWidth <= 768 ? SCALE_MOBILE : SCALE_DESKTOP
 
-    /* ── Scroll → scale ── */
-    const onScroll = () => {
+    /* ── Scroll → scale (rAF throttled) ──
+       Positions are NOT cached at mount — on mobile, dvh units change as the
+       browser address bar collapses while scrolling, shifting sections further
+       down the page than the mount-time snapshot. Computing dynamically via
+       getBoundingClientRect() inside rAF is accurate and still cheap.
+       Reads are batched before writes to avoid forced synchronous layout. */
+    let ticking = false
+    const updateScales = () => {
       const sy = window.scrollY
       const ih = window.innerHeight
-
-      scales.forEach((el, i) => {
-        const top = wrapTops[i]
-        const range = wraps[i].offsetHeight - ih // 160dvh - 100dvh = 60dvh of "sticky time"
-        const progress = Math.max(0, Math.min(1, (sy - top) / range))
-        el.style.transform = `scale(${1 + progress * scaleMax})`
+      // Batch all reads first
+      const progresses = wraps.map((wrap) => {
+        const top = wrap.getBoundingClientRect().top + sy
+        const range = wrap.offsetHeight - ih // 160dvh - 100dvh = 60dvh of "sticky time"
+        return Math.max(0, Math.min(1, (sy - top) / range))
       })
+      // Then batch all writes
+      scales.forEach((el, i) => {
+        el.style.transform = `scale(${1 + progresses[i] * scaleMax})`
+      })
+      ticking = false
+    }
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateScales)
+        ticking = true
+      }
     }
 
     /* ── IntersectionObserver → word + sub-text reveal ── */
@@ -79,7 +87,7 @@ export default function ScrollSection() {
     wraps.forEach((w) => io.observe(w))
 
     window.addEventListener("scroll", onScroll, { passive: true })
-    onScroll() // run immediately so initial scale is correct
+    updateScales() // run immediately so initial scale is correct
 
     return () => {
       window.removeEventListener("scroll", onScroll)
@@ -110,7 +118,7 @@ export default function ScrollSection() {
         <div className="sp-sticky">
           <article className="sp-scale">
             <p className="sr-panel-number">001 / 005</p>
-            <p className="sr-panel-text">
+            <p className="sr-panel-text" data-glitch="Interfaces used to obey.">
               <Words list={["Interfaces", "used", "to", "obey."]} />
             </p>
             <p className="sr-panel-sub">
@@ -129,7 +137,10 @@ export default function ScrollSection() {
         <div className="sp-sticky">
           <article className="sp-scale">
             <p className="sr-panel-number">002 / 005</p>
-            <p className="sr-panel-text accent-violet">
+            <p
+              className="sr-panel-text accent-violet"
+              data-glitch="Now they generate intentions."
+            >
               <Words list={["Now", "they", "generate", "intentions."]} />
             </p>
             <p className="sr-panel-sub">
@@ -177,7 +188,10 @@ export default function ScrollSection() {
         <div className="sp-sticky">
           <article className="sp-scale">
             <p className="sr-panel-number">004 / 005</p>
-            <p className="sr-panel-text accent-green">
+            <p
+              className="sr-panel-text accent-green"
+              data-glitch="Empathy at scale."
+            >
               <Words list={["Empathy", "at", "scale."]} />
             </p>
             <p className="sr-panel-sub">
@@ -196,7 +210,10 @@ export default function ScrollSection() {
         <div className="sp-sticky">
           <article className="sp-scale">
             <p className="sr-panel-number">005 / 005</p>
-            <p className="sr-panel-text accent-magenta">
+            <p
+              className="sr-panel-text accent-magenta"
+              data-glitch="This is not a product."
+            >
               <Words list={["This", "is", "not", "a", "product."]} />
             </p>
             <p className="sr-panel-sub">

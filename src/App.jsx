@@ -10,6 +10,12 @@ import Footer from "./components/Footer.jsx"
 export default function App() {
   return (
     <>
+      {/* Film grain texture — fixed overlay, pointer-events: none */}
+      <div className="grain-overlay" aria-hidden="true" />
+
+      {/* Black screen that dissolves on load — creates the "waking up" entrance */}
+      <div className="site-intro-overlay" aria-hidden="true" />
+
       <Cursor />
       <AudioToggle />
       <NavControls />

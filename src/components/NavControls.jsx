@@ -3,6 +3,8 @@
    Watches [data-nav-section] elements with an IntersectionObserver
    whose rootMargin collapses the detection zone to the viewport midpoint.
    Whichever section's bounds straddle the midpoint is "current".
+
+   Keyboard: ArrowDown/ArrowRight → next, ArrowUp/ArrowLeft → prev.
    ================================================ */
 
 import { useEffect, useRef, useState } from "react"
@@ -11,6 +13,12 @@ export default function NavControls() {
   const [current, setCurrent] = useState(0)
   const [total, setTotal] = useState(0)
   const sectionsRef = useRef([])
+  const currentRef = useRef(0)
+
+  // Keep currentRef in sync so keyboard handler has a fresh value
+  useEffect(() => {
+    currentRef.current = current
+  }, [current])
 
   useEffect(() => {
     const sections = Array.from(document.querySelectorAll("[data-nav-section]"))
@@ -35,7 +43,35 @@ export default function NavControls() {
     )
 
     sections.forEach((s) => io.observe(s))
-    return () => io.disconnect()
+
+    /* ── Keyboard navigation ──
+       ArrowDown / ArrowRight → next section (wraps to top on last)
+       ArrowUp  / ArrowLeft  → prev section
+       Skipped if focus is inside a text input. */
+    const onKeyDown = (e) => {
+      const tag = document.activeElement?.tagName
+      if (tag === "INPUT" || tag === "TEXTAREA") return
+
+      const secs = sectionsRef.current
+      const curr = currentRef.current
+
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        e.preventDefault()
+        const next = curr >= secs.length - 1 ? 0 : curr + 1
+        secs[next]?.scrollIntoView({ behavior: "smooth", block: "start" })
+      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        e.preventDefault()
+        if (curr > 0)
+          secs[curr - 1]?.scrollIntoView({ behavior: "smooth", block: "start" })
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown)
+
+    return () => {
+      io.disconnect()
+      window.removeEventListener("keydown", onKeyDown)
+    }
   }, [])
 
   const goTo = (index) => {
