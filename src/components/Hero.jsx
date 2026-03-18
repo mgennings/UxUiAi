@@ -145,7 +145,7 @@ export default function Hero() {
 
       {/* Content */}
       <div className="hero-content">
-        <p className="hero-eyebrow">uxuiai.org — signal incoming</p>
+        <p className="hero-eyebrow">ux-ui.ai — signal incoming</p>
 
         <h1 className="hero-title" aria-label="The Interface Is Dreaming">
           <span className="hero-title-line line-1">The Interface</span>

@@ -358,8 +358,8 @@ export default function Centerpiece() {
             letterSpacing="3"
           >
             <textPath href="#circle-path">
-              uxuiai.org · the intersection of intention and emergence ·
-              uxuiai.org · the intersection of intention and emergence ·
+              ux-ui.ai · the intersection of intention and emergence · ux-ui.ai
+              · the intersection of intention and emergence ·
             </textPath>
             <animateTransform
               attributeName="transform"
@@ -373,9 +373,7 @@ export default function Centerpiece() {
         </svg>
       </div>
 
-      <p className="centerpiece-domain">
-        <span>uxuiai</span>.org
-      </p>
+      <p className="centerpiece-domain">ux-ui.ai</p>
     </section>
   )
 }

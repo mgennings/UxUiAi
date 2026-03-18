@@ -1115,70 +1115,40 @@ body:has(button:hover) .cursor-ring {
 }
 
 .footer-domain {
-  /* Oswald instead of Bebas Neue — Bebas Neue's uppercase I has serifs that
-     look inconsistent with every other letterform. Oswald is same condensed
-     display energy with a clean, serifless I. */
-  font-family: "Oswald", var(--font-display);
-  font-size: clamp(4rem, 16vw, 16rem);
-  font-weight: 700;
-  line-height: 0.85;
-  text-transform: uppercase;
-  text-align: center;
-  letter-spacing: -0.02em;
-  position: relative;
-
-  /* Multi-ring outline — outermost (widest) ring.
-     Black fill "cuts through" so only the stroke edge is visible.
-     ::before and ::after add progressively thinner rings on top. */
-  -webkit-text-stroke: 8px var(--violet-light);
-  color: var(--black);
-
+  /* Scroll-driven reveal wrapper around the SVG domain text */
+  width: 100%;
   animation: footerReveal linear both;
   animation-timeline: view();
   animation-range: entry 0% entry 60%;
 }
 
-/* Middle ring — sits on top of outer, reveals a thinner concentric outline */
-.footer-domain::before,
-.footer-domain::after {
-  position: absolute;
-  inset: 0;
+.footer-domain-svg {
+  /* Fill container width; aspect ratio locked by viewBox */
+  width: 100%;
+  height: auto;
   display: block;
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  letter-spacing: inherit;
-  text-align: inherit;
-  text-transform: inherit;
-  color: var(--black);
-  pointer-events: none;
-  animation: footerReveal linear both;
-  animation-timeline: view();
-  animation-range: entry 0% entry 60%;
-}
-
-.footer-domain::before {
-  content: attr(aria-label);
-  -webkit-text-stroke: 4px var(--violet-light);
-}
-
-/* Innermost ring — thinnest stroke, sits on top of all layers */
-.footer-domain::after {
-  content: attr(aria-label);
-  -webkit-text-stroke: 1px var(--violet-light);
+  /* Continuous rainbow hue-cycle — the concentric stroke rings shift
+     through the full spectrum: violet → cyan → magenta → back */
+  animation: footerHueCycle 8s linear infinite;
 }
 
 @keyframes footerReveal {
   from {
     opacity: 0;
-    -webkit-text-stroke-color: transparent;
     filter: blur(20px);
   }
   to {
     opacity: 1;
-    -webkit-text-stroke-color: var(--violet-light);
     filter: blur(0px);
+  }
+}
+
+@keyframes footerHueCycle {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
   }
 }
 
@@ -1487,11 +1457,12 @@ body:has(button:hover) .cursor-ring {
     animation-duration: 120s;
   }
 
-  /* ── Footer reveal — instant ── */
-  .footer-domain,
-  .footer-domain::before,
-  .footer-domain::after {
+  /* ── Footer reveal — instant; freeze hue cycle ── */
+  .footer-domain {
     animation-duration: 0.1s;
     animation-delay: 0s;
+  }
+  .footer-domain-svg {
+    animation: none;
   }
 }
