@@ -76,6 +76,28 @@ export default function Footer() {
         </p>
       </div>
 
+      {/* Breadcrumbs — the manifesto stays "parked with purpose," but the
+         curious visitor gets a quiet way out: the consultancy and the résumé.
+         Tone matches the taglines above — lowercase, fragmentary, fine print. */}
+      <nav className="footer-links" aria-label="External links">
+        <a
+          className="footer-link"
+          href="https://ux-ui.ai"
+          target="_blank"
+          rel="noopener"
+        >
+          client work → ux-ui.ai
+        </a>
+        <a
+          className="footer-link"
+          href="https://mgennings.com"
+          target="_blank"
+          rel="noopener"
+        >
+          résumé → mgennings.com
+        </a>
+      </nav>
+
       {/* Fine print */}
       <div className="footer-bottom">
         <span>© ux-ui.ai</span>

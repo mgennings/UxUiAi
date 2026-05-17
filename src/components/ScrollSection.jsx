@@ -117,7 +117,7 @@ export default function ScrollSection() {
       <div className="sp-wrap" data-nav-section>
         <div className="sp-sticky">
           <article className="sp-scale">
-            <p className="sr-panel-number">001 / 005</p>
+            <p className="sr-panel-number">001 / 006</p>
             <p className="sr-panel-text" data-glitch="Interfaces used to obey.">
               <Words list={["Interfaces", "used", "to", "obey."]} />
             </p>
@@ -136,7 +136,7 @@ export default function ScrollSection() {
       <div className="sp-wrap" data-nav-section>
         <div className="sp-sticky">
           <article className="sp-scale">
-            <p className="sr-panel-number">002 / 005</p>
+            <p className="sr-panel-number">002 / 006</p>
             <p
               className="sr-panel-text accent-violet"
               data-glitch="Now they generate intentions."
@@ -158,7 +158,7 @@ export default function ScrollSection() {
       <div className="sp-wrap" data-nav-section>
         <div className="sp-sticky">
           <article className="sp-scale">
-            <p className="sr-panel-number">003 / 005</p>
+            <p className="sr-panel-number">003 / 006</p>
             <div className="sp-morph-layout">
               <div className="sr-morph-box" aria-hidden="true" />
               <div>
@@ -187,7 +187,7 @@ export default function ScrollSection() {
       <div className="sp-wrap" data-nav-section>
         <div className="sp-sticky">
           <article className="sp-scale">
-            <p className="sr-panel-number">004 / 005</p>
+            <p className="sr-panel-number">004 / 006</p>
             <p
               className="sr-panel-text accent-green"
               data-glitch="Empathy at scale."
@@ -209,7 +209,7 @@ export default function ScrollSection() {
       <div className="sp-wrap" data-nav-section>
         <div className="sp-sticky">
           <article className="sp-scale">
-            <p className="sr-panel-number">005 / 005</p>
+            <p className="sr-panel-number">005 / 006</p>
             <p
               className="sr-panel-text accent-magenta"
               data-glitch="This is not a product."
@@ -222,6 +222,44 @@ export default function ScrollSection() {
               What if the interface <em>is</em> the intelligence?
               <br />
               What if design and AI aren't intersecting — they're converging?
+            </p>
+          </article>
+        </div>
+      </div>
+
+      {/* ── Panel 6 — coda. Breaks the fourth wall in-register: the manifesto
+         is "parked with purpose," but the person who built it also builds
+         for clients. This is where the curious reader can step through. */}
+      <div className="sp-wrap" data-nav-section>
+        <div className="sp-sticky">
+          <article className="sp-scale">
+            <p className="sr-panel-number">006 / 006</p>
+            <p
+              className="sr-panel-text accent-violet"
+              data-glitch="except sometimes it ships."
+            >
+              <Words list={["except", "sometimes", "it", "ships."]} />
+            </p>
+            <p className="sr-panel-sub">
+              the same hands that built this also build for clients.
+              <br />
+              <a
+                className="sr-panel-link"
+                href="https://ux-ui.ai"
+                target="_blank"
+                rel="noopener"
+              >
+                client work lives at ux-ui.ai →
+              </a>
+              <br />
+              <a
+                className="sr-panel-link"
+                href="https://mgennings.com"
+                target="_blank"
+                rel="noopener"
+              >
+                the résumé lives at mgennings.com →
+              </a>
             </p>
           </article>
         </div>

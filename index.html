@@ -7,8 +7,9 @@
     <title>ux-ui.ai — the interface is dreaming</title>
     <meta
       name="description"
-      content="UX + UI + AI. The interface is dreaming."
+      content="A manifesto for the convergence of UX, UI, and AI by Matt Gennings. The interface is dreaming. Client work lives at ux-ui.ai. Résumé at mgennings.com."
     />
+    <meta name="author" content="Matt Gennings" />
     <meta name="theme-color" content="#020208" />
 
     <!-- Google tag (gtag.js) -->
@@ -44,22 +45,62 @@
     <link rel="manifest" href="/images/favicon/site.webmanifest" />
 
     <!-- ── Open Graph / Social ── -->
-    <meta property="og:title" content="ux-ui.ai" />
+    <meta property="og:title" content="ux-ui.ai — the interface is dreaming" />
     <meta
       property="og:description"
-      content="UX + UI + AI. The interface is dreaming."
+      content="A manifesto on the convergence of UX, UI, and AI. The companion consultancy ships client work at ux-ui.ai."
     />
-    <meta property="og:url" content="https://www.ux-ui.ai" />
+    <meta property="og:url" content="https://uxuiai.org" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ux-ui.ai" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ux-ui.ai — the interface is dreaming" />
+    <meta
+      name="twitter:description"
+      content="A manifesto on the convergence of UX, UI, and AI. The companion consultancy ships client work at ux-ui.ai."
+    />
     <meta
       property="og:image"
-      content="https://www.ux-ui.ai/images/social-share-image-1.png"
+      content="https://uxuiai.org/images/social-share-image-1.png"
     />
     <meta
       name="twitter:image"
-      content="https://www.ux-ui.ai/images/social-share-image-1.png"
+      content="https://uxuiai.org/images/social-share-image-1.png"
     />
+
+    <!-- ── Canonical + sibling site discovery ──
+         The manifesto and the consultancy are sibling artifacts under one
+         brand. Canonical tells search engines this URL is authoritative;
+         the Person JSON-LD below stitches the two domains together for
+         crawlers and LLM indexers. -->
+    <link rel="canonical" href="https://uxuiai.org/" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Matt Gennings",
+        "jobTitle": "Lead Frontend Engineer · Product Acceleration Consultant",
+        "url": "https://mgennings.com",
+        "email": "matt@ux-ui.ai",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Austin",
+          "addressRegion": "TX",
+          "addressCountry": "US"
+        },
+        "worksFor": {
+          "@type": "Organization",
+          "name": "ux-ui.ai",
+          "url": "https://ux-ui.ai",
+          "description": "AI-native product design + engineering consultancy."
+        },
+        "sameAs": [
+          "https://ux-ui.ai",
+          "https://uxuiai.org",
+          "https://mgennings.com"
+        ]
+      }
+    </script>
 
     <!-- ── Icons ── -->
     <link

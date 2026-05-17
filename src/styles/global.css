@@ -405,6 +405,47 @@ body:has(button:hover) .cursor-ring {
   animation: fadeUp 1s var(--ease-expo) 0.3s forwards;
 }
 
+/* When the eyebrow is the site index (manifesto · client work · résumé),
+   lay the items out in a single row with a soft separator between them.
+   Inherits all hero-eyebrow color/letter-spacing/animation — only the
+   layout and link affordance is new. */
+.hero-eyebrow-nav {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.65em;
+}
+
+.hero-eyebrow-current {
+  color: var(--text-dim);
+  /* "manifesto" is the page you're already on — dimmer than the live links */
+}
+
+.hero-eyebrow-sep {
+  color: var(--text-dim);
+  opacity: 0.6;
+}
+
+.hero-eyebrow-link {
+  color: var(--acid);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(57, 255, 20, 0.25);
+  padding-bottom: 1px;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    text-shadow 0.2s ease;
+}
+
+.hero-eyebrow-link:hover,
+.hero-eyebrow-link:focus-visible {
+  color: var(--violet-light);
+  border-bottom-color: rgba(192, 132, 252, 0.7);
+  text-shadow: var(--glow-v);
+  outline: none;
+}
+
 .hero-title {
   font-family: var(--font-display);
   line-height: 0.88;
@@ -1211,6 +1252,66 @@ body:has(button:hover) .cursor-ring {
   color: rgba(130, 130, 180, 0.6);
   letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+
+/* Footer breadcrumbs — sit between the taglines and the fine-print row.
+   Same lowercase / fine-print register as everything else in the footer;
+   dashed underline acts as a quiet "this is a link" affordance without
+   shouting the way solid underlines do. */
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem 2rem;
+  margin-top: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+}
+
+.footer-link {
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(112, 112, 176, 0.4);
+  padding-bottom: 2px;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    text-shadow 0.2s ease;
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+  color: var(--acid);
+  border-bottom-color: var(--acid);
+  text-shadow: var(--glow-a);
+  outline: none;
+}
+
+/* Panel-6 coda links — sit inside .sr-panel-sub. Inherits the panel-sub's
+   italic / dim color; just adds a visible link affordance and a hover state
+   that nods to the violet accent used in the panel-6 headline. */
+.sr-panel-link {
+  display: inline-block;
+  color: var(--violet-light);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(192, 132, 252, 0.35);
+  padding-bottom: 1px;
+  font-style: normal;
+  letter-spacing: 0.08em;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    text-shadow 0.2s ease;
+}
+
+.sr-panel-link:hover,
+.sr-panel-link:focus-visible {
+  color: var(--acid);
+  border-bottom-color: var(--acid);
+  text-shadow: var(--glow-a);
+  outline: none;
 }
 
 /* ================================================
