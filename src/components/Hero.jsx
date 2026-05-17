@@ -145,7 +145,36 @@ export default function Hero() {
 
       {/* Content */}
       <div className="hero-content">
-        <p className="hero-eyebrow">uxuiai.org — signal incoming</p>
+        {/* Eyebrow doubles as a quiet site index — manifesto is here,
+           client work lives at ux-ui.ai, résumé at mgennings.com.
+           Same mono / uppercase register as the original eyebrow line. */}
+        <nav className="hero-eyebrow hero-eyebrow-nav" aria-label="Site index">
+          <span className="hero-eyebrow-current" aria-current="page">
+            manifesto
+          </span>
+          <span className="hero-eyebrow-sep" aria-hidden="true">
+            ·
+          </span>
+          <a
+            className="hero-eyebrow-link"
+            href="https://ux-ui.ai"
+            target="_blank"
+            rel="noopener"
+          >
+            client work ↗
+          </a>
+          <span className="hero-eyebrow-sep" aria-hidden="true">
+            ·
+          </span>
+          <a
+            className="hero-eyebrow-link"
+            href="https://mgennings.com"
+            target="_blank"
+            rel="noopener"
+          >
+            résumé ↗
+          </a>
+        </nav>
 
         <h1 className="hero-title" aria-label="The Interface Is Dreaming">
           <span className="hero-title-line line-1">The Interface</span>

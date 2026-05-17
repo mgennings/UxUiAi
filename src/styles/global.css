@@ -405,6 +405,47 @@ body:has(button:hover) .cursor-ring {
   animation: fadeUp 1s var(--ease-expo) 0.3s forwards;
 }
 
+/* When the eyebrow is the site index (manifesto · client work · résumé),
+   lay the items out in a single row with a soft separator between them.
+   Inherits all hero-eyebrow color/letter-spacing/animation — only the
+   layout and link affordance is new. */
+.hero-eyebrow-nav {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.65em;
+}
+
+.hero-eyebrow-current {
+  color: var(--text-dim);
+  /* "manifesto" is the page you're already on — dimmer than the live links */
+}
+
+.hero-eyebrow-sep {
+  color: var(--text-dim);
+  opacity: 0.6;
+}
+
+.hero-eyebrow-link {
+  color: var(--acid);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(57, 255, 20, 0.25);
+  padding-bottom: 1px;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    text-shadow 0.2s ease;
+}
+
+.hero-eyebrow-link:hover,
+.hero-eyebrow-link:focus-visible {
+  color: var(--violet-light);
+  border-bottom-color: rgba(192, 132, 252, 0.7);
+  text-shadow: var(--glow-v);
+  outline: none;
+}
+
 .hero-title {
   font-family: var(--font-display);
   line-height: 0.88;
@@ -1115,70 +1156,40 @@ body:has(button:hover) .cursor-ring {
 }
 
 .footer-domain {
-  /* Oswald instead of Bebas Neue — Bebas Neue's uppercase I has serifs that
-     look inconsistent with every other letterform. Oswald is same condensed
-     display energy with a clean, serifless I. */
-  font-family: "Oswald", var(--font-display);
-  font-size: clamp(4rem, 16vw, 16rem);
-  font-weight: 700;
-  line-height: 0.85;
-  text-transform: uppercase;
-  text-align: center;
-  letter-spacing: -0.02em;
-  position: relative;
-
-  /* Multi-ring outline — outermost (widest) ring.
-     Black fill "cuts through" so only the stroke edge is visible.
-     ::before and ::after add progressively thinner rings on top. */
-  -webkit-text-stroke: 8px var(--violet-light);
-  color: var(--black);
-
+  /* Scroll-driven reveal wrapper around the SVG domain text */
+  width: 100%;
   animation: footerReveal linear both;
   animation-timeline: view();
   animation-range: entry 0% entry 60%;
 }
 
-/* Middle ring — sits on top of outer, reveals a thinner concentric outline */
-.footer-domain::before,
-.footer-domain::after {
-  position: absolute;
-  inset: 0;
+.footer-domain-svg {
+  /* Fill container width; aspect ratio locked by viewBox */
+  width: 100%;
+  height: auto;
   display: block;
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  letter-spacing: inherit;
-  text-align: inherit;
-  text-transform: inherit;
-  color: var(--black);
-  pointer-events: none;
-  animation: footerReveal linear both;
-  animation-timeline: view();
-  animation-range: entry 0% entry 60%;
-}
-
-.footer-domain::before {
-  content: attr(aria-label);
-  -webkit-text-stroke: 4px var(--violet-light);
-}
-
-/* Innermost ring — thinnest stroke, sits on top of all layers */
-.footer-domain::after {
-  content: attr(aria-label);
-  -webkit-text-stroke: 1px var(--violet-light);
+  /* Continuous rainbow hue-cycle — the concentric stroke rings shift
+     through the full spectrum: violet → cyan → magenta → back */
+  animation: footerHueCycle 8s linear infinite;
 }
 
 @keyframes footerReveal {
   from {
     opacity: 0;
-    -webkit-text-stroke-color: transparent;
     filter: blur(20px);
   }
   to {
     opacity: 1;
-    -webkit-text-stroke-color: var(--violet-light);
     filter: blur(0px);
+  }
+}
+
+@keyframes footerHueCycle {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
   }
 }
 
@@ -1241,6 +1252,66 @@ body:has(button:hover) .cursor-ring {
   color: rgba(130, 130, 180, 0.6);
   letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+
+/* Footer breadcrumbs — sit between the taglines and the fine-print row.
+   Same lowercase / fine-print register as everything else in the footer;
+   dashed underline acts as a quiet "this is a link" affordance without
+   shouting the way solid underlines do. */
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem 2rem;
+  margin-top: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+}
+
+.footer-link {
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(112, 112, 176, 0.4);
+  padding-bottom: 2px;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    text-shadow 0.2s ease;
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+  color: var(--acid);
+  border-bottom-color: var(--acid);
+  text-shadow: var(--glow-a);
+  outline: none;
+}
+
+/* Panel-6 coda links — sit inside .sr-panel-sub. Inherits the panel-sub's
+   italic / dim color; just adds a visible link affordance and a hover state
+   that nods to the violet accent used in the panel-6 headline. */
+.sr-panel-link {
+  display: inline-block;
+  color: var(--violet-light);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(192, 132, 252, 0.35);
+  padding-bottom: 1px;
+  font-style: normal;
+  letter-spacing: 0.08em;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    text-shadow 0.2s ease;
+}
+
+.sr-panel-link:hover,
+.sr-panel-link:focus-visible {
+  color: var(--acid);
+  border-bottom-color: var(--acid);
+  text-shadow: var(--glow-a);
+  outline: none;
 }
 
 /* ================================================
@@ -1487,11 +1558,12 @@ body:has(button:hover) .cursor-ring {
     animation-duration: 120s;
   }
 
-  /* ── Footer reveal — instant ── */
-  .footer-domain,
-  .footer-domain::before,
-  .footer-domain::after {
+  /* ── Footer reveal — instant; freeze hue cycle ── */
+  .footer-domain {
     animation-duration: 0.1s;
     animation-delay: 0s;
+  }
+  .footer-domain-svg {
+    animation: none;
   }
 }

@@ -1,6 +1,6 @@
-# uxuiai.org
+# ux-ui.ai
 
-a parked domain that refused to stay parked. it's alive at **[www.uxuiai.org](https://www.uxuiai.org)**.
+a parked domain that refused to stay parked. it's alive at **[ux-ui.ai](https://www.ux-ui.ai)**.
 
 this is not a product. this is not a landing page. this is not a "coming soon." this is a WebGL fever dream about what happens when UX/UI and AI converge into something that no longer needs you. there are scroll animations that scale text until it feels threatening. there is a particle network in the centerpiece that connects dots in a way that feels like it means something. there is a ben böhmer track playing if you click the button. there is a custom cursor that lags behind your mouse like it has places to be.
 
@@ -53,7 +53,7 @@ or just commit and lint-staged handles it automatically via the husky pre-commit
 
 ## deploy
 
-this lives on **AWS Amplify** at [www.uxuiai.org](https://www.uxuiai.org). amplify watches the main branch and deploys on push. no build config needed beyond what's already in `package.json` — vite outputs to `dist/` and amplify finds it.
+this lives on **AWS Amplify** at [ux-ui.ai](https://www.ux-ui.ai). amplify watches the main branch and deploys on push. no build config needed beyond what's already in `package.json` — vite outputs to `dist/` and amplify finds it.
 
 if you wanted to deploy this somewhere else for some reason:
 
