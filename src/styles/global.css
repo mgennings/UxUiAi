@@ -722,7 +722,10 @@ body:has(button:hover) .cursor-ring {
 .scroll-section {
   position: relative;
   padding: 0;
-  /* overflow must NOT be hidden — sticky panels need to escape */
+  /* overflow must NOT be hidden — sticky panels need to escape.
+     overflow-x: clip contains horizontal scroll-scale growth WITHOUT
+     creating a scroll container, so position: sticky still works. */
+  overflow-x: clip;
 }
 
 .scroll-section-header {
@@ -773,6 +776,8 @@ body:has(button:hover) .cursor-ring {
   width: 100%;
   will-change: transform;
   transform-origin: center center;
+  /* Keep scaled content from forcing horizontal page growth */
+  overflow-wrap: break-word;
 }
 
 /* Word reveal — CSS transition, class .is-active toggled by IntersectionObserver */
@@ -886,6 +891,11 @@ body:has(button:hover) .cursor-ring {
   text-transform: uppercase;
   position: relative;
   /* No overflow: hidden — was clipping trailing spaces */
+  /* Guard: long uppercase words + scroll-scale must never exceed the container
+     width and push the page beyond screen bounds. */
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Words default to hidden clip — revealed when parent .sp-wrap gets .is-active.

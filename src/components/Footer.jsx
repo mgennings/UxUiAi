@@ -100,7 +100,7 @@ export default function Footer() {
 
       {/* Fine print */}
       <div className="footer-bottom">
-        <span>© ux-ui.ai</span>
+        <span>© Experience Architects</span>
         <span>·</span>
         <span>a signal from the edge</span>
       </div>
