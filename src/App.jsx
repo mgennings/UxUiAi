@@ -1,31 +1,36 @@
-import Cursor from "./components/Cursor.jsx"
-import AudioToggle from "./components/AudioToggle.jsx"
-import NavControls from "./components/NavControls.jsx"
-import Hero from "./components/Hero.jsx"
-import Marquee from "./components/Marquee.jsx"
-import ScrollSection from "./components/ScrollSection.jsx"
-import Centerpiece from "./components/Centerpiece.jsx"
-import Footer from "./components/Footer.jsx"
+import { Router, Routes, Route, ScrollToTop } from "./router/router.jsx"
+
+import Home from "./pages/Home.jsx"
+import Manifesto from "./pages/Manifesto.jsx"
+import Work from "./pages/Work.jsx"
+import Contact from "./pages/Contact.jsx"
+import Apps from "./pages/apps/Apps.jsx"
+import Airbridge from "./pages/apps/airbridge/Airbridge.jsx"
+import AirbridgePrivacy from "./pages/apps/airbridge/Privacy.jsx"
+import AirbridgeTerms from "./pages/apps/airbridge/Terms.jsx"
+import AirbridgeSupport from "./pages/apps/airbridge/Support.jsx"
+import OrgPrivacy from "./pages/legal/OrgPrivacy.jsx"
+import OrgTerms from "./pages/legal/OrgTerms.jsx"
+import NotFound from "./pages/NotFound.jsx"
 
 export default function App() {
   return (
-    <>
-      {/* Film grain texture — fixed overlay, pointer-events: none */}
-      <div className="grain-overlay" aria-hidden="true" />
-
-      {/* Black screen that dissolves on load — creates the "waking up" entrance */}
-      <div className="site-intro-overlay" aria-hidden="true" />
-
-      <Cursor />
-      <AudioToggle />
-      <NavControls />
-      <main>
-        <Hero />
-        <Marquee />
-        <ScrollSection />
-        <Centerpiece />
-        <Footer />
-      </main>
-    </>
+    <Router>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/manifesto" element={<Manifesto />} />
+        <Route path="/work" element={<Work />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/apps" element={<Apps />} />
+        <Route path="/apps/airbridge" element={<Airbridge />} />
+        <Route path="/apps/airbridge/privacy" element={<AirbridgePrivacy />} />
+        <Route path="/apps/airbridge/terms" element={<AirbridgeTerms />} />
+        <Route path="/apps/airbridge/support" element={<AirbridgeSupport />} />
+        <Route path="/legal/privacy" element={<OrgPrivacy />} />
+        <Route path="/legal/terms" element={<OrgTerms />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
   )
 }
