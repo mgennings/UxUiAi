@@ -300,28 +300,36 @@
 .btn:hover {
   transform: translateY(-1px);
 }
-.btn--primary {
+/* scoped under .shell so they beat .shell a on specificity */
+.shell .btn--primary,
+.shell a.btn--primary {
   background: var(--ea-blue);
   color: #fff;
 }
-.btn--primary:hover {
+.shell .btn--primary:hover,
+.shell a.btn--primary:hover {
   background: var(--ea-blue-deep);
   color: #fff;
   box-shadow: 0 10px 30px rgba(24, 61, 123, 0.28);
 }
-.btn--ghost {
+.shell .btn--ghost,
+.shell a.btn--ghost {
   background: transparent;
   color: var(--ea-blue);
   border-color: var(--hair-strong);
 }
-.btn--ghost:hover {
+.shell .btn--ghost:hover,
+.shell a.btn--ghost:hover {
   border-color: var(--ea-blue);
+  color: var(--ea-blue);
 }
-.btn--appstore {
+.shell .btn--appstore,
+.shell a.btn--appstore {
   background: #000;
   color: #fff;
 }
-.btn--appstore:hover {
+.shell .btn--appstore:hover,
+.shell a.btn--appstore:hover {
   color: #fff;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
