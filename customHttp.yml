@@ -1,0 +1,14 @@
+# AWS Amplify custom HTTP headers
+# https://docs.aws.amazon.com/amplify/latest/userguide/custom-headers.html
+#
+# Apple fetches the App Clip / universal-links manifest from the EXACT,
+# extensionless path /.well-known/apple-app-site-association and REQUIRES it
+# to be served as application/json over HTTPS, 200, with no redirect.
+# Because the file has no .json extension, Amplify would otherwise serve it
+# as a generic type (often application/octet-stream or text/plain), which
+# Apple rejects. This rule forces the correct Content-Type.
+customHeaders:
+  - pattern: '/.well-known/apple-app-site-association'
+    headers:
+      - key: 'Content-Type'
+        value: 'application/json'

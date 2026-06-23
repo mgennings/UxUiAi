@@ -1,0 +1,13 @@
+{
+  "appclips": {
+    "apps": ["2C8KLAYGR2.org.uxuiai.healthbridge.Clip"]
+  },
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["2C8KLAYGR2.org.uxuiai.healthbridge"],
+        "components": [{ "/": "/apps/airbridge*" }]
+      }
+    ]
+  }
+}

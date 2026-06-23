@@ -1,1 +1,14 @@
-/*  /index.html  200
+# Serve the Apple App Site Association (and anything under /.well-known) AS-IS.
+# MUST stay ABOVE the SPA catch-all — _redirects is first-match-wins, so without
+# this the catch-all would rewrite the AASA to index.html and Apple would get
+# HTML, failing App Clip / universal-links domain validation. The 200! (forced)
+# serves the static file at its real path with no redirect.
+/.well-known/*  /.well-known/:splat  200!
+
+# SPA deep-link rewrite (Amplify form): any path that is NOT a real static asset
+# rewrites to index.html so React Router can render it. The negative lookahead
+# excludes paths ending in a known file extension (real files served directly)
+# and excludes /.well-known. This is what stops /apps/airbridge/privacy from
+# 404-ing on a direct hit — the plain "/* /index.html 200" rule does not, on
+# Amplify, because S3 trailing-slash handling 404s before the catch-all.
+</(?!.*\.(?:css|js|json|png|jpg|jpeg|gif|svg|ico|webp|woff2?|ttf|map|txt|xml|mp3|wav|m4a)$)(?!\.well-known).*</index.html  200
