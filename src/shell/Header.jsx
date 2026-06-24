@@ -23,10 +23,13 @@ export default function Header() {
         </Link>
         <nav className="site-nav" aria-label="primary">
           {/* home · apps · work (portfolio, external) · contact */}
-          <Link to="/" aria-current={path === "/" ? "page" : undefined}>
-            home
+          <a href="/#main">home</a>
+          <Link
+            to="/apps"
+            aria-current={isActive("/apps") ? "page" : undefined}
+          >
+            apps
           </Link>
-          <a href="/#catalog">apps</a>
           <a href="https://mgennings.com" target="_blank" rel="noopener">
             work ↗
           </a>

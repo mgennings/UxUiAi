@@ -1,14 +1,8 @@
-import {
-  Router,
-  Routes,
-  Route,
-  ScrollToTop,
-  useNavigate,
-} from "./router/router.jsx"
-import { useEffect } from "react"
+import { Router, Routes, Route, ScrollToTop } from "./router/router.jsx"
 import { ThemeProvider } from "./shell/theme.jsx"
 
 import Apps from "./pages/apps/Apps.jsx"
+import AppsIndex from "./pages/apps/AppsIndex.jsx"
 import AppPage, { APPS } from "./pages/apps/AppPage.jsx"
 import Manifesto from "./pages/Manifesto.jsx"
 import Contact from "./pages/Contact.jsx"
@@ -18,14 +12,6 @@ import OrgPrivacy from "./pages/legal/OrgPrivacy.jsx"
 import OrgTerms from "./pages/legal/OrgTerms.jsx"
 import NotFound from "./pages/NotFound.jsx"
 
-/* the apps page IS the home now, so /apps just bounces to / — one canonical
-   URL, no duplicate content. */
-function ToHome() {
-  const navigate = useNavigate()
-  useEffect(() => navigate("/", { replace: true }), [navigate])
-  return null
-}
-
 export default function App() {
   return (
     <ThemeProvider>
@@ -34,7 +20,7 @@ export default function App() {
         <Routes>
           {/* home = the apps showcase; each app gets its own page */}
           <Route path="/" element={<Apps />} />
-          <Route path="/apps" element={<ToHome />} />
+          <Route path="/apps" element={<AppsIndex />} />
           <Route
             path="/apps/airbridge"
             element={<AppPage app={APPS.airbridge} />}

@@ -91,10 +91,25 @@
   max-width: 30rem;
   margin-bottom: 32px;
 }
+/* keep the two CTAs side by side at every width — they shrink to fit
+   rather than stacking. */
 .apps-hero__cta {
   display: flex;
   gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+}
+.apps-hero__cta .btn {
+  flex: 0 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+}
+/* on narrow phones the labels are long — tighten padding + size so the two
+   buttons stay on one row instead of wrapping. */
+@media (max-width: 480px) {
+  .apps-hero__cta .btn {
+    padding: 13px 16px;
+    font-size: 0.92rem;
+  }
 }
 
 /* ── right: the two-app constellation ──
@@ -223,6 +238,22 @@
   .apps-hero__stage {
     max-width: 420px;
   }
+}
+
+/* ================================================
+   APPS INDEX — /apps: a focused header + the app cards.
+   ================================================ */
+.apps-index {
+  padding: clamp(56px, 8vw, 96px) 0;
+}
+.apps-index__head {
+  max-width: 40rem;
+  margin: 0 0 40px;
+}
+.apps-index__head h1 {
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  letter-spacing: -0.025em;
+  margin: 8px 0 16px;
 }
 
 /* ================================================
