@@ -2,6 +2,25 @@
 
 Timestamped record of major decisions and changes. Newest first.
 
+## 2026-06-24 (later still) — apps page IS the homepage; nav slimmed
+
+Matt: the old plasma-mandala "interfaces that think" homepage hero had to
+go — he wanted the (loved) /apps hero to BE the front door.
+
+- `/` now renders the Apps component (home = the apps showcase). The old
+  Home.jsx mandala hero + studio/featured/manifesto-pointer bands are gone
+  (Home.jsx deleted).
+- `/apps` redirects to `/` (ToHome, replace) — one canonical URL.
+- nav slimmed to: work ↗ (→ mgennings.com, external) · contact · toggle.
+  Dropped the "apps" link (home is apps). Logo → /.
+- `/work` stub deleted (Work.jsx removed); the route now redirects to
+  mgennings.com via a new generic ExternalRedirect component. Real work
+  lives at the portfolio (mgennings.com = the "Four Ways In" /
+  Creative-Portfolio repo), NOT a stub here.
+- footer: work → mgennings.com, undertext added under apps, "all apps"
+  (→ /apps) removed since home is apps.
+- 404 + Apps SEO updated for the new IA.
+
 ## 2026-06-24 (later) — undertext promoted to shipping + two-app constellation
 
 undertext turned out to be fully shipped (App Store id6778455656, live at

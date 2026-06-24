@@ -1,15 +1,29 @@
-import { Router, Routes, Route, ScrollToTop } from "./router/router.jsx"
+import {
+  Router,
+  Routes,
+  Route,
+  ScrollToTop,
+  useNavigate,
+} from "./router/router.jsx"
+import { useEffect } from "react"
 import { ThemeProvider } from "./shell/theme.jsx"
 
-import Home from "./pages/Home.jsx"
-import Manifesto from "./pages/Manifesto.jsx"
-import Work from "./pages/Work.jsx"
-import Contact from "./pages/Contact.jsx"
 import Apps from "./pages/apps/Apps.jsx"
+import Manifesto from "./pages/Manifesto.jsx"
+import Contact from "./pages/Contact.jsx"
+import ExternalRedirect from "./pages/ExternalRedirect.jsx"
 import AirbridgeRedirect from "./pages/apps/airbridge/AirbridgeRedirect.jsx"
 import OrgPrivacy from "./pages/legal/OrgPrivacy.jsx"
 import OrgTerms from "./pages/legal/OrgTerms.jsx"
 import NotFound from "./pages/NotFound.jsx"
+
+/* the apps page IS the home now, so /apps just bounces to / — one canonical
+   URL, no duplicate content. */
+function ToHome() {
+  const navigate = useNavigate()
+  useEffect(() => navigate("/", { replace: true }), [navigate])
+  return null
+}
 
 export default function App() {
   return (
@@ -17,11 +31,25 @@ export default function App() {
       <Router>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Home />} />
+          {/* home = the apps showcase */}
+          <Route path="/" element={<Apps />} />
+          <Route path="/apps" element={<ToHome />} />
+
+          {/* work lives at the portfolio, not here */}
+          <Route
+            path="/work"
+            element={
+              <ExternalRedirect
+                to="https://mgennings.com"
+                label="the portfolio at mgennings.com"
+              />
+            }
+          />
+
           <Route path="/manifesto" element={<Manifesto />} />
-          <Route path="/work" element={<Work />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/apps" element={<Apps />} />
+
+          {/* AirBridge moved to its own domain */}
           <Route
             path="/apps/airbridge"
             element={<AirbridgeRedirect to="/" />}
@@ -38,6 +66,7 @@ export default function App() {
             path="/apps/airbridge/support"
             element={<AirbridgeRedirect to="/support" />}
           />
+
           <Route path="/legal/privacy" element={<OrgPrivacy />} />
           <Route path="/legal/terms" element={<OrgTerms />} />
           <Route path="*" element={<NotFound />} />
