@@ -1,6 +1,5 @@
 import Layout from "../../shell/Layout.jsx"
 import Seo from "../../shell/Seo.jsx"
-import Symbol from "../../shell/Symbol.jsx"
 import { Link } from "../../router/router.jsx"
 
 const apps = [
@@ -14,12 +13,13 @@ const apps = [
     status: "shipping",
   },
   {
-    to: "/apps",
-    tag: "writing",
+    to: "https://undertext.org",
+    external: true,
+    tag: "iOS · reading",
     name: "undertext",
     blurb:
-      "a quieter way to write — surfacing the text beneath the text. more soon.",
-    status: "in progress",
+      "a quieter way to read scripture — sit with the language beneath the verse. word study, original-language roots, and a still place to read.",
+    status: "shipping",
   },
 ]
 
@@ -62,16 +62,40 @@ export default function Apps() {
               >
                 visit AirBridge Health
               </a>
-              <a className="btn btn--ghost" href="#catalog">
+              <a className="btn btn--invert" href="#catalog">
                 browse the catalog
               </a>
             </div>
           </div>
 
-          {/* constellation — the shipping app, framed and theme-aware,
-             with the next one floating behind it at depth. */}
+          {/* constellation — two shipping apps. AirBridge is the front
+             focal device; undertext sits smaller and angled behind it at
+             depth, so the hero shows the family, not just one product.
+             both screenshots are framed PNGs (bezel baked in). */}
           <div className="apps-hero__stage" aria-hidden="true">
-            <figure className="apps-hero__device">
+            {/* secondary: undertext, angled behind-right. light/dark twin
+               that swaps with the page theme, same technique as AirBridge. */}
+            <figure className="apps-hero__device apps-hero__device--undertext">
+              <img
+                className="apps-hero__shot is-light"
+                src="/images/app-screens/undertext-reader-framed.png"
+                alt=""
+                loading="lazy"
+                width="278"
+                height="570"
+              />
+              <img
+                className="apps-hero__shot is-dark"
+                src="/images/app-screens/undertext-reader-dark-framed.png"
+                alt=""
+                loading="lazy"
+                width="278"
+                height="570"
+              />
+            </figure>
+
+            {/* primary: AirBridge, front, theme-aware light/dark twin. */}
+            <figure className="apps-hero__device apps-hero__device--airbridge">
               <img
                 className="apps-hero__shot is-light"
                 src="/images/app-screens/onboarding-light-framed.webp"
@@ -89,14 +113,6 @@ export default function Apps() {
                 height="694"
               />
             </figure>
-
-            <div className="apps-hero__chip apps-hero__chip--undertext">
-              <Symbol fill="plasma" className="apps-hero__chip-mark" />
-              <div>
-                <p className="apps-hero__chip-name">undertext</p>
-                <p className="apps-hero__chip-meta">writing · soon</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -114,11 +130,7 @@ export default function Apps() {
                   <h3>{a.name}</h3>
                   <p>{a.blurb}</p>
                   <span className="more">
-                    {a.external
-                      ? "visit site →"
-                      : a.to === "/apps"
-                        ? "coming soon"
-                        : "view product →"}
+                    {a.external ? "visit site →" : "view product →"}
                   </span>
                 </>
               )

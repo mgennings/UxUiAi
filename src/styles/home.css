@@ -20,12 +20,22 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: radial-gradient(
-    120% 90% at 50% 0%,
-    transparent 30%,
-    rgba(6, 6, 20, 0.55) 75%,
-    rgba(6, 6, 20, 0.9) 100%
-  );
+  /* two scrims: a centered pool that sits behind the headline so the
+     copy is always legible, plus the original top→bottom fade that keeps
+     the plasma vivid at the upper edges and grounds the section bottom. */
+  background:
+    radial-gradient(
+      80% 60% at 50% 48%,
+      rgba(6, 6, 20, 0.72) 0%,
+      rgba(6, 6, 20, 0.4) 55%,
+      transparent 80%
+    ),
+    radial-gradient(
+      120% 90% at 50% 0%,
+      transparent 30%,
+      rgba(6, 6, 20, 0.55) 75%,
+      rgba(6, 6, 20, 0.92) 100%
+    );
   pointer-events: none;
 }
 .hub-hero__inner {
@@ -93,7 +103,7 @@
   background: var(--paper-3);
   border: 1px solid var(--hair);
   border-radius: var(--r-lg);
-  padding: 30px;
+  padding: 32px;
   transition:
     border-color 0.25s var(--ease),
     transform 0.25s var(--ease),
@@ -121,7 +131,7 @@
 }
 .feature-card .more {
   display: inline-block;
-  margin-top: 14px;
+  margin-top: 16px;
   color: var(--link);
   font-weight: 600;
   font-size: 0.95rem;
@@ -129,7 +139,7 @@
 .feature-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 22px;
+  gap: 24px;
 }
 @media (max-width: 760px) {
   .feature-grid {

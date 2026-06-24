@@ -45,11 +45,12 @@
 }
 
 /* mobile-first: single column, copy then constellation. the split grid +
-   vertical centering are added at the wide breakpoint below. */
+   vertical centering are added at the wide breakpoint below. spacing rides
+   the 8px grid (16 default / 12 tight). */
 .apps-hero__inner {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 44px;
+  gap: 48px;
 }
 
 /* ── left: the statement ── */
@@ -57,7 +58,7 @@
   font-size: clamp(2.3rem, 5vw, 3.6rem);
   line-height: 1.04;
   letter-spacing: -0.025em;
-  margin: 16px 0 22px;
+  margin: 16px 0 24px;
   color: var(--ink);
 }
 .apps-hero__line {
@@ -88,7 +89,7 @@
 
 .apps-hero__lead {
   max-width: 30rem;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 }
 .apps-hero__cta {
   display: flex;
@@ -96,27 +97,41 @@
   flex-wrap: wrap;
 }
 
-/* ── right: the constellation ──
-   mobile-first: smaller, centered. grows at the wide breakpoint. */
+/* ── right: the two-app constellation ──
+   the stage is the bounding box for both phones. AirBridge sits front;
+   undertext sits smaller + angled behind it. mobile-first: the stage is
+   compact and the phones overlap tightly; it opens up at the wide
+   breakpoint. the aspect-ratio leaves room to the right for undertext. */
 .apps-hero__stage {
   position: relative;
   justify-self: center;
   width: 100%;
-  max-width: 290px;
-  aspect-ratio: 1470 / 3000;
+  max-width: 320px;
+  aspect-ratio: 1 / 1.45;
 }
 
-/* the framed device — the PNG already carries the iPhone bezel, so this
-   wrapper only sizes + lifts it; no second frame drawn behind it. */
+/* a framed device — the PNG already carries the iPhone bezel, so the
+   wrapper only places + sizes it; no second frame drawn behind it. */
 .apps-hero__device {
   position: absolute;
-  inset: 0;
   margin: 0;
-  filter: drop-shadow(0 40px 80px rgba(8, 8, 20, 0.32));
-  transition: transform var(--t-slow) var(--ease-out);
+  transition:
+    transform var(--t-slow) var(--ease-out),
+    filter var(--t-slow) var(--ease-out);
 }
-.apps-hero__stage:hover .apps-hero__device {
-  transform: translateY(-6px);
+.apps-hero__device img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* primary: AirBridge, front + left, full size, strongest shadow. */
+.apps-hero__device--airbridge {
+  left: 0;
+  bottom: 0;
+  width: 66%;
+  z-index: 2;
+  filter: drop-shadow(0 32px 64px rgba(8, 8, 20, 0.34));
 }
 .apps-hero__shot {
   position: absolute;
@@ -125,6 +140,10 @@
   height: 100%;
   object-fit: contain;
   transition: opacity var(--t-slow) var(--ease-out);
+}
+/* AirBridge wrapper needs intrinsic height since both shots are absolute */
+.apps-hero__device--airbridge {
+  aspect-ratio: 1470 / 3000;
 }
 .apps-hero__shot.is-dark {
   opacity: 0;
@@ -136,47 +155,28 @@
   opacity: 1;
 }
 
-/* the next app, floating behind + below at depth. on mobile it tucks
-   closer to the device edge; it swings further out at the wide breakpoint. */
-.apps-hero__chip {
-  position: absolute;
-  right: -4%;
-  bottom: 9%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px 12px 12px;
-  border: 1px solid var(--hair);
-  border-radius: var(--r-md);
-  background: color-mix(in srgb, var(--paper-3) 86%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: var(--sh-3);
-  transition:
-    transform var(--t-slow) var(--ease-out),
-    box-shadow var(--t-slow) var(--ease-out);
+/* secondary: undertext, behind + right, smaller, angled, slightly
+   recessed (softer shadow, gentle desaturation) so AirBridge stays the
+   focal point. one warm-paper screenshot reads in both themes. */
+.apps-hero__device--undertext {
+  right: 0;
+  top: 0;
+  width: 54%;
+  aspect-ratio: 1470 / 3000;
+  z-index: 1;
+  transform: rotate(4deg);
+  transform-origin: bottom left;
+  filter: drop-shadow(0 24px 48px rgba(8, 8, 20, 0.26));
+  opacity: 0.96;
 }
-.apps-hero__stage:hover .apps-hero__chip {
-  transform: translateY(-3px);
+
+/* hover: the pair lifts together, undertext fans out a touch more so the
+   depth reads as deliberate. */
+.apps-hero__stage:hover .apps-hero__device--airbridge {
+  transform: translateY(-6px);
 }
-.apps-hero__chip-mark {
-  width: 30px;
-  height: 30px;
-  flex-shrink: 0;
-}
-.apps-hero__chip-name {
-  margin: 0;
-  font-weight: 600;
-  font-size: 0.98rem;
-  color: var(--ink);
-}
-.apps-hero__chip-meta {
-  margin: 0;
-  font-family: var(--shell-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
+.apps-hero__stage:hover .apps-hero__device--undertext {
+  transform: rotate(6deg) translateY(-6px);
 }
 
 /* ── load reveal — one orchestrated moment, lines stagger up ── */
@@ -221,10 +221,7 @@
     align-items: center;
   }
   .apps-hero__stage {
-    max-width: 380px;
-  }
-  .apps-hero__chip {
-    right: -8%;
+    max-width: 420px;
   }
 }
 

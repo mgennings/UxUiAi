@@ -81,15 +81,21 @@ export default function Home() {
               </p>
               <span className="more">visit site →</span>
             </a>
-            <Link className="feature-card" to="/apps">
-              <span className="tag">app · writing</span>
+            <a
+              className="feature-card"
+              href="https://undertext.org"
+              target="_blank"
+              rel="noopener"
+            >
+              <span className="tag">app · iOS</span>
               <h3>undertext</h3>
               <p>
-                a quieter way to write — surfacing the text beneath the text.
-                part of the experience Architects app family.
+                a quieter way to read scripture — sit with the language beneath
+                the verse. word study, original-language roots, and a still
+                place to read.
               </p>
-              <span className="more">view apps →</span>
-            </Link>
+              <span className="more">visit site →</span>
+            </a>
           </div>
         </div>
       </section>
