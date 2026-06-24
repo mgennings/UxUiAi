@@ -24,8 +24,20 @@ export default function ShellFooter() {
           <div className="shell-footer__col">
             <h4>apps</h4>
             <Link to="/apps">all apps</Link>
-            <Link to="/apps/airbridge">airbridge health</Link>
-            <Link to="/apps/airbridge/support">support</Link>
+            <a
+              href="https://airbridgehealth.com"
+              target="_blank"
+              rel="noopener"
+            >
+              AirBridge Health
+            </a>
+            <a
+              href="https://airbridgehealth.com/support"
+              target="_blank"
+              rel="noopener"
+            >
+              AirBridge support
+            </a>
           </div>
           <div className="shell-footer__col">
             <h4>legal</h4>

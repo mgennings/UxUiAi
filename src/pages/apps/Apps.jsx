@@ -4,11 +4,12 @@ import { Link } from "../../router/router.jsx"
 
 const apps = [
   {
-    to: "/apps/airbridge",
+    to: "https://airbridgehealth.com",
+    external: true,
     tag: "iOS · health",
-    name: "airbridge health",
+    name: "AirBridge Health",
     blurb:
-      "the bridge between your Fitbit and Apple Health. reads from Google Health, writes to Apple Health, all on-device. built for the world after the September 2026 Fitbit Web API sunset.",
+      "the bridge between your Fitbit and Apple Health. reads from Google Health, writes to Apple Health, all on-device. built for the world after the September 2026 Fitbit Web API retirement.",
     status: "shipping",
   },
   {
@@ -26,7 +27,7 @@ export default function Apps() {
     <Layout>
       <Seo
         title="apps — experience Architects"
-        description="the apps shipped by experience Architects, including airbridge health and undertext."
+        description="the apps shipped by experience Architects, including AirBridge Health and undertext."
       />
       <section className="doc-hero">
         <div className="container">
@@ -41,18 +42,42 @@ export default function Apps() {
       <section className="section section--tight">
         <div className="container">
           <div className="feature-grid">
-            {apps.map((a) => (
-              <Link className="feature-card" to={a.to} key={a.name}>
-                <span className="tag">
-                  {a.tag} · {a.status}
-                </span>
-                <h3>{a.name}</h3>
-                <p>{a.blurb}</p>
-                <span className="more">
-                  {a.to === "/apps" ? "coming soon" : "view product →"}
-                </span>
-              </Link>
-            ))}
+            {apps.map((a) => {
+              const inner = (
+                <>
+                  <span className="tag">
+                    {a.tag} · {a.status}
+                  </span>
+                  <h3>{a.name}</h3>
+                  <p>{a.blurb}</p>
+                  <span className="more">
+                    {a.external
+                      ? "visit site →"
+                      : a.to === "/apps"
+                        ? "coming soon"
+                        : "view product →"}
+                  </span>
+                </>
+              )
+              if (a.external) {
+                return (
+                  <a
+                    className="feature-card"
+                    href={a.to}
+                    key={a.name}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    {inner}
+                  </a>
+                )
+              }
+              return (
+                <Link className="feature-card" to={a.to} key={a.name}>
+                  {inner}
+                </Link>
+              )
+            })}
           </div>
         </div>
       </section>

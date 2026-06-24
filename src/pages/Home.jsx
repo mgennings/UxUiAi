@@ -9,7 +9,7 @@ export default function Home() {
     <Layout>
       <Seo
         title="experience Architects — product design, engineering, and the apps built along the way"
-        description="experience Architects is the studio of Matt Gennings: AI-native product design and engineering, plus the home for the apps shipped along the way, including airbridge health and undertext."
+        description="experience Architects is the studio of Matt Gennings: AI-native product design and engineering, plus the home for the apps shipped along the way, including AirBridge Health and undertext."
       />
 
       {/* hero — the one place on the shell that gets the plasma */}
@@ -66,16 +66,21 @@ export default function Home() {
             <Link to="/apps">all apps →</Link>
           </div>
           <div className="feature-grid">
-            <Link className="feature-card" to="/apps/airbridge">
+            <a
+              className="feature-card"
+              href="https://airbridgehealth.com"
+              target="_blank"
+              rel="noopener"
+            >
               <span className="tag">app · iOS</span>
-              <h3>airbridge health</h3>
+              <h3>AirBridge Health</h3>
               <p>
                 the bridge between your Fitbit and Apple Health. on-device,
-                private, and built for Google Health after the September 2026
-                Fitbit Web API sunset.
+                private, and built on the new Google Health API ahead of the
+                September 2026 Fitbit Web API retirement.
               </p>
-              <span className="more">view product →</span>
-            </Link>
+              <span className="more">visit site →</span>
+            </a>
             <Link className="feature-card" to="/apps">
               <span className="tag">app · writing</span>
               <h3>undertext</h3>
