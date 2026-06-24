@@ -47,9 +47,8 @@ export default function Apps() {
               </span>
             </h1>
             <p className="lead apps-hero__lead">
-              interfaces that think aren't a thesis here — they ship. each one
-              is built and maintained under the same hand as the consultancy
-              work, and each keeps its legal home on this site.
+              shipped apps from the same studio behind the consultancy work,
+              with product pages, support, and legal homes gathered here.
             </p>
             <div className="apps-hero__cta">
               <a
@@ -58,10 +57,10 @@ export default function Apps() {
                 target="_blank"
                 rel="noopener"
               >
-                visit AirBridge Health
+                visit AirBridge
               </a>
               <a className="btn btn--invert" href="#catalog">
-                browse the catalog
+                browse apps
               </a>
             </div>
           </div>
