@@ -17,19 +17,23 @@ export default function ShellFooter() {
           </div>
           <div className="shell-footer__col">
             <h4>studio</h4>
-            <Link to="/work">work</Link>
+            <a href="https://mgennings.com" target="_blank" rel="noopener">
+              work ↗
+            </a>
             <Link to="/manifesto">manifesto</Link>
             <Link to="/contact">contact</Link>
           </div>
           <div className="shell-footer__col">
             <h4>apps</h4>
-            <Link to="/apps">all apps</Link>
             <a
               href="https://airbridgehealth.com"
               target="_blank"
               rel="noopener"
             >
               AirBridge Health
+            </a>
+            <a href="https://undertext.org" target="_blank" rel="noopener">
+              undertext
             </a>
             <a
               href="https://airbridgehealth.com/support"

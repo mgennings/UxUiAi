@@ -22,18 +22,11 @@ export default function Header() {
           </span>
         </Link>
         <nav className="site-nav" aria-label="primary">
-          <Link
-            to="/work"
-            aria-current={isActive("/work") ? "page" : undefined}
-          >
-            work
-          </Link>
-          <Link
-            to="/apps"
-            aria-current={isActive("/apps") ? "page" : undefined}
-          >
-            apps
-          </Link>
+          {/* work lives at the portfolio (mgennings.com), not here.
+             there's no "apps" link — the home page IS the apps. */}
+          <a href="https://mgennings.com" target="_blank" rel="noopener">
+            work ↗
+          </a>
           <Link
             to="/contact"
             aria-current={isActive("/contact") ? "page" : undefined}

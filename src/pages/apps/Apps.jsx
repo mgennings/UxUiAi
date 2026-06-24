@@ -27,8 +27,8 @@ export default function Apps() {
   return (
     <Layout>
       <Seo
-        title="apps — experience Architects"
-        description="the apps shipped by experience Architects, including AirBridge Health and undertext."
+        title="experience Architects — the apps that prove the idea"
+        description="experience Architects is the studio of Matt Gennings. the home for the apps shipped along the way — AirBridge Health and undertext — each private, on-device, and built with intent."
       />
 
       {/* hero — a real showcase, not a doc header. asymmetric split:
