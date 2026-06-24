@@ -2,10 +2,10 @@
 
 ## The map
 
-| Repo                             | Domain     | Role                                                             |
-| -------------------------------- | ---------- | ---------------------------------------------------------------- |
-| `~/Developer/UxUiAi/` (this one) | uxuiai.org | Manifesto / art piece. WebGL fever-dream. "Parked with purpose." |
-| `~/Developer/ux-ui-ai/`          | ux-ui.ai   | Consultancy / agency. Services, pricing, case studies, contact.  |
+| Repo                             | Domain     | Role                                                                                                                                                               |
+| -------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `~/Developer/UxUiAi/` (this one) | uxuiai.org | The HUB for experience Architects: studio + apps (AirBridge, undertext). Home = the apps showcase. The manifesto WebGL piece is one room inside it (`/manifesto`). |
+| `~/Developer/ux-ui-ai/`          | ux-ui.ai   | Consultancy / agency. Services, pricing, case studies, contact.                                                                                                    |
 
 Both share DNA — same WebGL plasma shader (IQ cosine palette), same
 violet / magenta / acid palette, same "interfaces that think" throughline.
@@ -19,7 +19,11 @@ The split is intentional: one is **the idea**, one is **the work**.
   ScrollSection. JSON-LD Person schema in `index.html` stitches the
   three domains together for crawlers / LLM indexers.
 
-## Voice rules (apply to anything user-facing on uxuiai.org)
+## Voice rules — the `/manifesto` room (and legacy art surfaces)
+
+These govern the manifesto WebGL piece and any quiet art-voice copy. They no
+longer govern the whole site — the hub homepage is the apps showcase (proper,
+craft-led product copy), see TIMELINE.md.
 
 - Lowercase. Fragmentary. No corporate vocabulary.
 - The conceit is "parked with purpose · nothing is happening here ·

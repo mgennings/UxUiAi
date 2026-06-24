@@ -12,7 +12,8 @@ deploys to `ux-ui.ai` (the consultancy).
 
 ## When to load which note
 
-| File                     | Description                                                         | Load when                                     |
-| ------------------------ | ------------------------------------------------------------------- | --------------------------------------------- |
-| [SITES.md](SITES.md)     | The two-site split: what lives where, voice rules, do / don't       | Always — before editing anything user-facing  |
-| [GOTCHAS.md](GOTCHAS.md) | Two-heroes confusion, the light/dark theme system, prettier, assets | Before touching the shell, theme, or any hero |
+| File                       | Description                                                                          | Load when                                       |
+| -------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------- |
+| [SITES.md](SITES.md)       | The two-site split (uxuiai.org HUB vs ux-ui.ai consultancy); voice rules; do / don't | Always — before editing anything user-facing    |
+| [GOTCHAS.md](GOTCHAS.md)   | Two-heroes confusion, the light/dark theme system, prettier config, vendored assets  | Before touching the shell, theme, or any hero   |
+| [TIMELINE.md](TIMELINE.md) | Timestamped record of major decisions/changes (newest first); current IA + rationale | When you need the why behind the current layout |
