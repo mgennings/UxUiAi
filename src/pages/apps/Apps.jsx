@@ -13,12 +13,13 @@ const apps = [
     status: "shipping",
   },
   {
-    to: "/apps",
-    tag: "writing",
+    to: "https://undertext.org",
+    external: true,
+    tag: "iOS · reading",
     name: "undertext",
     blurb:
-      "a quieter way to write — surfacing the text beneath the text. more soon.",
-    status: "in progress",
+      "a quieter way to read scripture — sit with the language beneath the verse. word study, original-language roots, and a still place to read.",
+    status: "shipping",
   },
 ]
 
@@ -29,17 +30,95 @@ export default function Apps() {
         title="apps — experience Architects"
         description="the apps shipped by experience Architects, including AirBridge Health and undertext."
       />
-      <section className="doc-hero">
-        <div className="container">
-          <p className="kicker">experience Architects</p>
-          <h1 style={{ fontSize: "2.1rem", marginTop: "10px" }}>apps</h1>
-          <p className="lead" style={{ marginTop: "12px", maxWidth: "620px" }}>
-            the products built along the way. each one is shipped under the same
-            hand as the consultancy work, and each has its own legal home here.
-          </p>
+
+      {/* hero — a real showcase, not a doc header. asymmetric split:
+         the statement on the left, the apps themselves on the right. */}
+      <section className="apps-hero" aria-label="apps intro" data-reveal>
+        {/* ambient plasma glow — pure CSS, dims in dark mode. the hero
+           reads complete with no WebGL; the shader is reserved for the
+           manifesto. */}
+        <div className="apps-hero__glow" aria-hidden="true" />
+
+        <div className="container apps-hero__inner">
+          <div className="apps-hero__copy">
+            <p className="kicker">experience Architects · apps</p>
+            <h1 className="apps-hero__title">
+              <span className="apps-hero__line">the products</span>
+              <span className="apps-hero__line">
+                that <span className="plasma-text">prove the idea</span>.
+              </span>
+            </h1>
+            <p className="lead apps-hero__lead">
+              interfaces that think aren't a thesis here — they ship. each one
+              is built and maintained under the same hand as the consultancy
+              work, and each keeps its legal home on this site.
+            </p>
+            <div className="apps-hero__cta">
+              <a
+                className="btn btn--primary"
+                href="https://airbridgehealth.com"
+                target="_blank"
+                rel="noopener"
+              >
+                visit AirBridge Health
+              </a>
+              <a className="btn btn--invert" href="#catalog">
+                browse the catalog
+              </a>
+            </div>
+          </div>
+
+          {/* constellation — two shipping apps. AirBridge is the front
+             focal device; undertext sits smaller and angled behind it at
+             depth, so the hero shows the family, not just one product.
+             both screenshots are framed PNGs (bezel baked in). */}
+          <div className="apps-hero__stage" aria-hidden="true">
+            {/* secondary: undertext, angled behind-right. light/dark twin
+               that swaps with the page theme, same technique as AirBridge. */}
+            <figure className="apps-hero__device apps-hero__device--undertext">
+              <img
+                className="apps-hero__shot is-light"
+                src="/images/app-screens/undertext-reader-framed.png"
+                alt=""
+                loading="lazy"
+                width="278"
+                height="570"
+              />
+              <img
+                className="apps-hero__shot is-dark"
+                src="/images/app-screens/undertext-reader-dark-framed.png"
+                alt=""
+                loading="lazy"
+                width="278"
+                height="570"
+              />
+            </figure>
+
+            {/* primary: AirBridge, front, theme-aware light/dark twin. */}
+            <figure className="apps-hero__device apps-hero__device--airbridge">
+              <img
+                className="apps-hero__shot is-light"
+                src="/images/app-screens/onboarding-light-framed.webp"
+                alt=""
+                loading="eager"
+                width="340"
+                height="694"
+              />
+              <img
+                className="apps-hero__shot is-dark"
+                src="/images/app-screens/onboarding-dark-framed.webp"
+                alt=""
+                loading="eager"
+                width="340"
+                height="694"
+              />
+            </figure>
+          </div>
         </div>
       </section>
-      <section className="section section--tight">
+
+      {/* the catalog */}
+      <section id="catalog" className="section section--tight">
         <div className="container">
           <div className="feature-grid">
             {apps.map((a) => {
@@ -51,11 +130,7 @@ export default function Apps() {
                   <h3>{a.name}</h3>
                   <p>{a.blurb}</p>
                   <span className="more">
-                    {a.external
-                      ? "visit site →"
-                      : a.to === "/apps"
-                        ? "coming soon"
-                        : "view product →"}
+                    {a.external ? "visit site →" : "view product →"}
                   </span>
                 </>
               )
