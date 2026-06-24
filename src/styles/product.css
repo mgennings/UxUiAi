@@ -225,6 +225,159 @@
   }
 }
 
+/* ================================================
+   APP PAGE — per-app hero (solo device), features, screen rail, CTA.
+   built to scale: every app reuses these classes via AppPage.
+   ================================================ */
+
+/* the per-app hero leads with a breadcrumb, so it wants extra top room to
+   clear the sticky header (the home hero leads with the kicker and doesn't). */
+.apps-hero--app {
+  padding-top: clamp(40px, 6vw, 72px);
+}
+
+/* "back to all apps" breadcrumb above the per-app hero. needs room above
+   (clears the sticky header) and below (separates from the kicker). */
+.app-back {
+  margin: 0 0 24px;
+  font-family: var(--shell-mono);
+  font-size: 0.8rem;
+}
+.app-back a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  margin-left: -10px; /* optical: align text to the grid, keep the hit area */
+  border-radius: var(--r-sm);
+  text-decoration: none;
+  color: var(--ink-2);
+  transition:
+    background var(--t-fast) var(--ease-out),
+    color var(--t-fast) var(--ease-out);
+}
+.app-back a:hover {
+  background: var(--paper-2);
+  color: var(--ink);
+}
+.app-back a:focus-visible {
+  outline: 2px solid var(--accent, var(--ea-blue));
+  outline-offset: 2px;
+}
+
+/* solo hero device — a single centered phone (not the constellation). */
+.apps-hero__stage--solo {
+  position: relative;
+  justify-self: center;
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1470 / 3000;
+}
+.apps-hero__device--solo {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  filter: drop-shadow(0 32px 64px rgba(8, 8, 20, 0.32));
+  transition: transform var(--t-slow) var(--ease-out);
+}
+.apps-hero__device--solo:hover {
+  transform: translateY(-6px);
+}
+@media (min-width: 861px) {
+  .apps-hero__stage--solo {
+    max-width: 340px;
+  }
+}
+
+/* features — three beats in a responsive grid */
+.app-features {
+  padding: clamp(48px, 7vw, 80px) 0;
+  background: var(--paper-2);
+  transition: background var(--t-med) var(--ease-in-out);
+}
+.app-features__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.app-feature h2 {
+  font-size: 1.12rem;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+.app-feature p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+@media (min-width: 720px) {
+  .app-features__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+}
+
+/* screenshot rail — framed phones in a row, scrolls on small screens */
+.app-rail {
+  padding: clamp(48px, 7vw, 88px) 0;
+}
+.app-rail__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(180px, 1fr);
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+}
+.app-rail__shot {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1470 / 3000;
+  scroll-snap-align: center;
+  filter: drop-shadow(0 24px 48px rgba(8, 8, 20, 0.24));
+}
+.app-rail__shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.app-rail__shot .apps-hero__shot {
+  position: absolute;
+  inset: 0;
+}
+@media (min-width: 720px) {
+  .app-rail__track {
+    grid-auto-columns: 1fr;
+    overflow: visible;
+  }
+}
+
+/* closing CTA band */
+.app-cta {
+  padding: clamp(48px, 7vw, 80px) 0;
+  background: var(--night);
+  color: var(--night-text);
+  text-align: center;
+}
+.app-cta__inner {
+  display: grid;
+  justify-items: center;
+  gap: 24px;
+}
+.app-cta h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: var(--night-text);
+}
+.app-cta .apps-hero__cta {
+  justify-content: center;
+}
+
 .ab-hero {
   background:
     radial-gradient(

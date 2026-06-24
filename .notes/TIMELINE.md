@@ -2,6 +2,29 @@
 
 Timestamped record of major decisions and changes. Newest first.
 
+## 2026-06-24 (latest) — per-app pages + nav restructure
+
+- new reusable `AppPage` component (src/pages/apps/AppPage.jsx) driven by an
+  `APPS` data record per app: dedicated per-app hero (own headline + plasma
+  accent + solo device), three feature beats, a screenshot rail, closing CTA.
+  scale path = add a record + one <Route>. routes: /apps/airbridge,
+  /apps/undertext (each renders AppPage with its record).
+- home cards now route INTERNALLY to /apps/<app> ("explore →"); the per-app
+  pages' CTAs go OUT to the app (visit site ↗ / App Store ↗).
+- nav: home · apps (→ /#catalog) · work ↗ (mgennings.com) · contact · toggle.
+- accessibility: breadcrumb is a labeled <nav>, back-link has aria-label +
+  :focus-visible + padded hit area; decorative ← is aria-hidden.
+- breadcrumb spacing fixed (room above to clear sticky header, 24px below).
+- cursor: pointer restored on interactive elements (the shell's blanket
+  `cursor: auto` under (pointer:fine) was killing it).
+- pulled two more undertext screens (word-study, be-still) for the rail.
+- NOTE: the homemade router matches pathname only and treats `#hash` as part
+  of the path — that's why an earlier /apps#undertext 404'd. We avoided
+  hashes for app routing (real /apps/<app> pages) rather than fix the router.
+  nav "apps" still uses /#catalog (plain anchor, full nav on cross-page).
+
+## 2026-06-24 (later still) — apps page IS the homepage; nav slimmed
+
 ## 2026-06-24 (later still) — apps page IS the homepage; nav slimmed
 
 Matt: the old plasma-mandala "interfaces that think" homepage hero had to

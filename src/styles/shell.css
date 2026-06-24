@@ -127,6 +127,16 @@
   .shell * {
     cursor: auto;
   }
+  /* but interactive elements get a pointer — the blanket reset above
+     would otherwise leave links/buttons/inputs showing the text caret. */
+  .shell a,
+  .shell button,
+  .shell [role="button"],
+  .shell label,
+  .shell summary,
+  .shell select {
+    cursor: pointer;
+  }
 }
 
 .shell a {

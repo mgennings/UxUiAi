@@ -9,6 +9,7 @@ import { useEffect } from "react"
 import { ThemeProvider } from "./shell/theme.jsx"
 
 import Apps from "./pages/apps/Apps.jsx"
+import AppPage, { APPS } from "./pages/apps/AppPage.jsx"
 import Manifesto from "./pages/Manifesto.jsx"
 import Contact from "./pages/Contact.jsx"
 import ExternalRedirect from "./pages/ExternalRedirect.jsx"
@@ -31,9 +32,17 @@ export default function App() {
       <Router>
         <ScrollToTop />
         <Routes>
-          {/* home = the apps showcase */}
+          {/* home = the apps showcase; each app gets its own page */}
           <Route path="/" element={<Apps />} />
           <Route path="/apps" element={<ToHome />} />
+          <Route
+            path="/apps/airbridge"
+            element={<AppPage app={APPS.airbridge} />}
+          />
+          <Route
+            path="/apps/undertext"
+            element={<AppPage app={APPS.undertext} />}
+          />
 
           {/* work lives at the portfolio, not here */}
           <Route
@@ -49,11 +58,7 @@ export default function App() {
           <Route path="/manifesto" element={<Manifesto />} />
           <Route path="/contact" element={<Contact />} />
 
-          {/* AirBridge moved to its own domain */}
-          <Route
-            path="/apps/airbridge"
-            element={<AirbridgeRedirect to="/" />}
-          />
+          {/* AirBridge's legal/support pages live on its own domain */}
           <Route
             path="/apps/airbridge/privacy"
             element={<AirbridgeRedirect to="/privacy" />}

@@ -4,8 +4,7 @@ import { Link } from "../../router/router.jsx"
 
 const apps = [
   {
-    to: "https://airbridgehealth.com",
-    external: true,
+    to: "/apps/airbridge",
     tag: "iOS · health",
     name: "AirBridge Health",
     blurb:
@@ -13,8 +12,7 @@ const apps = [
     status: "shipping",
   },
   {
-    to: "https://undertext.org",
-    external: true,
+    to: "/apps/undertext",
     tag: "iOS · reading",
     name: "undertext",
     blurb:
@@ -121,38 +119,16 @@ export default function Apps() {
       <section id="catalog" className="section section--tight">
         <div className="container">
           <div className="feature-grid">
-            {apps.map((a) => {
-              const inner = (
-                <>
-                  <span className="tag">
-                    {a.tag} · {a.status}
-                  </span>
-                  <h3>{a.name}</h3>
-                  <p>{a.blurb}</p>
-                  <span className="more">
-                    {a.external ? "visit site →" : "view product →"}
-                  </span>
-                </>
-              )
-              if (a.external) {
-                return (
-                  <a
-                    className="feature-card"
-                    href={a.to}
-                    key={a.name}
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    {inner}
-                  </a>
-                )
-              }
-              return (
-                <Link className="feature-card" to={a.to} key={a.name}>
-                  {inner}
-                </Link>
-              )
-            })}
+            {apps.map((a) => (
+              <Link className="feature-card" to={a.to} key={a.name}>
+                <span className="tag">
+                  {a.tag} · {a.status}
+                </span>
+                <h3>{a.name}</h3>
+                <p>{a.blurb}</p>
+                <span className="more">explore →</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
