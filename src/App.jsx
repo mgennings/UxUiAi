@@ -5,10 +5,7 @@ import Manifesto from "./pages/Manifesto.jsx"
 import Work from "./pages/Work.jsx"
 import Contact from "./pages/Contact.jsx"
 import Apps from "./pages/apps/Apps.jsx"
-import Airbridge from "./pages/apps/airbridge/Airbridge.jsx"
-import AirbridgePrivacy from "./pages/apps/airbridge/Privacy.jsx"
-import AirbridgeTerms from "./pages/apps/airbridge/Terms.jsx"
-import AirbridgeSupport from "./pages/apps/airbridge/Support.jsx"
+import AirbridgeRedirect from "./pages/apps/airbridge/AirbridgeRedirect.jsx"
 import OrgPrivacy from "./pages/legal/OrgPrivacy.jsx"
 import OrgTerms from "./pages/legal/OrgTerms.jsx"
 import NotFound from "./pages/NotFound.jsx"
@@ -23,10 +20,19 @@ export default function App() {
         <Route path="/work" element={<Work />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/apps" element={<Apps />} />
-        <Route path="/apps/airbridge" element={<Airbridge />} />
-        <Route path="/apps/airbridge/privacy" element={<AirbridgePrivacy />} />
-        <Route path="/apps/airbridge/terms" element={<AirbridgeTerms />} />
-        <Route path="/apps/airbridge/support" element={<AirbridgeSupport />} />
+        <Route path="/apps/airbridge" element={<AirbridgeRedirect to="/" />} />
+        <Route
+          path="/apps/airbridge/privacy"
+          element={<AirbridgeRedirect to="/privacy" />}
+        />
+        <Route
+          path="/apps/airbridge/terms"
+          element={<AirbridgeRedirect to="/terms" />}
+        />
+        <Route
+          path="/apps/airbridge/support"
+          element={<AirbridgeRedirect to="/support" />}
+        />
         <Route path="/legal/privacy" element={<OrgPrivacy />} />
         <Route path="/legal/terms" element={<OrgTerms />} />
         <Route path="*" element={<NotFound />} />
