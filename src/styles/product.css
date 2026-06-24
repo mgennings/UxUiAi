@@ -2,6 +2,232 @@
    PRODUCT PAGE — airbridge health landing
    ================================================ */
 
+/* ================================================
+   APPS HERO — the /apps showcase.
+   asymmetric split (statement left, the apps right),
+   theme-aware, with one plasma-masked word as the
+   signature. reuses the shell tokens; the plasma is a
+   CSS accent (text-clip + glow), never a load-bearing
+   WebGL background — so it reads complete everywhere.
+   ================================================ */
+.apps-hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(64px, 9vw, 104px) 0 clamp(56px, 7vw, 88px);
+  background: var(--paper);
+  transition: background var(--t-med) var(--ease-in-out);
+}
+
+/* ambient plasma glow — two soft pools, top-right violet + lower-left
+   cyan. opacity drops in dark mode so the night surface stays calm. */
+.apps-hero__glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      760px 520px at 82% -8%,
+      color-mix(in srgb, var(--plasma-violet) 26%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      620px 480px at 6% 24%,
+      color-mix(in srgb, var(--plasma-cyan) 18%, transparent),
+      transparent 58%
+    );
+  opacity: 0.7;
+  transition: opacity var(--t-slow) var(--ease-out);
+}
+[data-theme="dark"] .apps-hero__glow {
+  opacity: 0.5;
+}
+
+/* mobile-first: single column, copy then constellation. the split grid +
+   vertical centering are added at the wide breakpoint below. */
+.apps-hero__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 44px;
+}
+
+/* ── left: the statement ── */
+.apps-hero__title {
+  font-size: clamp(2.3rem, 5vw, 3.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  margin: 16px 0 22px;
+  color: var(--ink);
+}
+.apps-hero__line {
+  display: block;
+}
+
+/* the signature: the plasma palette flows through one phrase. a clipped
+   gradient (not the live shader), so it costs nothing and works with no
+   WebGL. the slow hue drift is the only ambient motion on the page. */
+.plasma-text {
+  background: linear-gradient(
+    100deg,
+    var(--plasma-violet),
+    var(--plasma-magenta) 45%,
+    var(--plasma-cyan)
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: plasma-drift 14s linear infinite;
+}
+@keyframes plasma-drift {
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.apps-hero__lead {
+  max-width: 30rem;
+  margin-bottom: 28px;
+}
+.apps-hero__cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ── right: the constellation ──
+   mobile-first: smaller, centered. grows at the wide breakpoint. */
+.apps-hero__stage {
+  position: relative;
+  justify-self: center;
+  width: 100%;
+  max-width: 290px;
+  aspect-ratio: 1470 / 3000;
+}
+
+/* the framed device — the PNG already carries the iPhone bezel, so this
+   wrapper only sizes + lifts it; no second frame drawn behind it. */
+.apps-hero__device {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  filter: drop-shadow(0 40px 80px rgba(8, 8, 20, 0.32));
+  transition: transform var(--t-slow) var(--ease-out);
+}
+.apps-hero__stage:hover .apps-hero__device {
+  transform: translateY(-6px);
+}
+.apps-hero__shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity var(--t-slow) var(--ease-out);
+}
+.apps-hero__shot.is-dark {
+  opacity: 0;
+}
+[data-theme="dark"] .apps-hero__shot.is-light {
+  opacity: 0;
+}
+[data-theme="dark"] .apps-hero__shot.is-dark {
+  opacity: 1;
+}
+
+/* the next app, floating behind + below at depth. on mobile it tucks
+   closer to the device edge; it swings further out at the wide breakpoint. */
+.apps-hero__chip {
+  position: absolute;
+  right: -4%;
+  bottom: 9%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px 12px 12px;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--paper-3) 86%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--sh-3);
+  transition:
+    transform var(--t-slow) var(--ease-out),
+    box-shadow var(--t-slow) var(--ease-out);
+}
+.apps-hero__stage:hover .apps-hero__chip {
+  transform: translateY(-3px);
+}
+.apps-hero__chip-mark {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+.apps-hero__chip-name {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--ink);
+}
+.apps-hero__chip-meta {
+  margin: 0;
+  font-family: var(--shell-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* ── load reveal — one orchestrated moment, lines stagger up ── */
+[data-reveal] .apps-hero__line,
+[data-reveal] .apps-hero__lead,
+[data-reveal] .apps-hero__cta,
+[data-reveal] .apps-hero__stage {
+  animation: apps-rise var(--t-slow) var(--ease-out) both;
+}
+[data-reveal] .apps-hero__line:nth-child(1) {
+  animation-delay: 60ms;
+}
+[data-reveal] .apps-hero__line:nth-child(2) {
+  animation-delay: 130ms;
+}
+[data-reveal] .apps-hero__lead {
+  animation-delay: 210ms;
+}
+[data-reveal] .apps-hero__cta {
+  animation-delay: 290ms;
+}
+[data-reveal] .apps-hero__stage {
+  animation-delay: 180ms;
+}
+@keyframes apps-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* wide enhancement: the two-column split, vertical centering, and the
+   fuller-size constellation only kick in once there's room for them. */
+@media (min-width: 861px) {
+  .apps-hero__inner {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+  }
+  .apps-hero__stage {
+    max-width: 380px;
+  }
+  .apps-hero__chip {
+    right: -8%;
+  }
+}
+
 .ab-hero {
   background:
     radial-gradient(

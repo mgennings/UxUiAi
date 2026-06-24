@@ -1,5 +1,6 @@
 import Layout from "../../shell/Layout.jsx"
 import Seo from "../../shell/Seo.jsx"
+import Symbol from "../../shell/Symbol.jsx"
 import { Link } from "../../router/router.jsx"
 
 const apps = [
@@ -29,17 +30,79 @@ export default function Apps() {
         title="apps — experience Architects"
         description="the apps shipped by experience Architects, including AirBridge Health and undertext."
       />
-      <section className="doc-hero">
-        <div className="container">
-          <p className="kicker">experience Architects</p>
-          <h1 style={{ fontSize: "2.1rem", marginTop: "10px" }}>apps</h1>
-          <p className="lead" style={{ marginTop: "12px", maxWidth: "620px" }}>
-            the products built along the way. each one is shipped under the same
-            hand as the consultancy work, and each has its own legal home here.
-          </p>
+
+      {/* hero — a real showcase, not a doc header. asymmetric split:
+         the statement on the left, the apps themselves on the right. */}
+      <section className="apps-hero" aria-label="apps intro" data-reveal>
+        {/* ambient plasma glow — pure CSS, dims in dark mode. the hero
+           reads complete with no WebGL; the shader is reserved for the
+           manifesto. */}
+        <div className="apps-hero__glow" aria-hidden="true" />
+
+        <div className="container apps-hero__inner">
+          <div className="apps-hero__copy">
+            <p className="kicker">experience Architects · apps</p>
+            <h1 className="apps-hero__title">
+              <span className="apps-hero__line">the products</span>
+              <span className="apps-hero__line">
+                that <span className="plasma-text">prove the idea</span>.
+              </span>
+            </h1>
+            <p className="lead apps-hero__lead">
+              interfaces that think aren't a thesis here — they ship. each one
+              is built and maintained under the same hand as the consultancy
+              work, and each keeps its legal home on this site.
+            </p>
+            <div className="apps-hero__cta">
+              <a
+                className="btn btn--primary"
+                href="https://airbridgehealth.com"
+                target="_blank"
+                rel="noopener"
+              >
+                visit AirBridge Health
+              </a>
+              <a className="btn btn--ghost" href="#catalog">
+                browse the catalog
+              </a>
+            </div>
+          </div>
+
+          {/* constellation — the shipping app, framed and theme-aware,
+             with the next one floating behind it at depth. */}
+          <div className="apps-hero__stage" aria-hidden="true">
+            <figure className="apps-hero__device">
+              <img
+                className="apps-hero__shot is-light"
+                src="/images/app-screens/onboarding-light-framed.webp"
+                alt=""
+                loading="eager"
+                width="340"
+                height="694"
+              />
+              <img
+                className="apps-hero__shot is-dark"
+                src="/images/app-screens/onboarding-dark-framed.webp"
+                alt=""
+                loading="eager"
+                width="340"
+                height="694"
+              />
+            </figure>
+
+            <div className="apps-hero__chip apps-hero__chip--undertext">
+              <Symbol fill="plasma" className="apps-hero__chip-mark" />
+              <div>
+                <p className="apps-hero__chip-name">undertext</p>
+                <p className="apps-hero__chip-meta">writing · soon</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-      <section className="section section--tight">
+
+      {/* the catalog */}
+      <section id="catalog" className="section section--tight">
         <div className="container">
           <div className="feature-grid">
             {apps.map((a) => {
