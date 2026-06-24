@@ -417,6 +417,21 @@
   color: #fff;
   box-shadow: 0 10px 30px rgba(24, 61, 123, 0.28);
 }
+/* the inverse of primary: a solid white button with deep-blue ink, for
+   pairing beside btn--primary where a low-contrast ghost would disappear
+   (esp. on the dark apps hero). solid in BOTH themes by design. */
+.shell .btn--invert,
+.shell a.btn--invert {
+  background: #fff;
+  color: var(--ea-blue-deep);
+  border-color: #fff;
+}
+.shell .btn--invert:hover,
+.shell a.btn--invert:hover {
+  background: #fff;
+  color: var(--ea-blue-deep);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+}
 .shell .btn--ghost,
 .shell a.btn--ghost {
   background: transparent;
