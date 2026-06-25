@@ -12,7 +12,8 @@ export default function ShellFooter() {
             <p>
               experience Architects is the studio of Matt Gennings — product
               design and engineering for interfaces that think, and the home for
-              the apps built along the way.
+              the apps built along the way on @nolanOS, the studio's own AI
+              delivery platform.
             </p>
           </div>
           <div className="shell-footer__col">

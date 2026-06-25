@@ -30,7 +30,9 @@ export default function AppsIndex() {
             <h1>apps</h1>
             <p className="lead">
               the products shipped along the way — each built and maintained
-              under the same hand, each with its own home.
+              under the same hand, each with its own home. two reached the App
+              Store in two weeks, built on @nolanOS, the studio's own AI
+              delivery platform.
             </p>
           </header>
 
