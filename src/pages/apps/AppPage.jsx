@@ -17,7 +17,7 @@ export const APPS = {
     name: "AirBridge Health",
     tag: "iOS · health",
     site: "https://airbridgehealth.com",
-    appStore: "https://apps.apple.com/us/app/id6783452784",
+    appStore: "https://apps.apple.com/us/app/airbridge-health/id6783452784",
     seoDesc:
       "AirBridge Health — private, on-device Fitbit-to-Apple-Health sync, built on the new Google Health API ahead of the September 2026 Fitbit Web API retirement.",
     // hero
